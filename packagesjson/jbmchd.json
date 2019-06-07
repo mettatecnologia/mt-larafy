@@ -1,0 +1,20 @@
+{
+    "dependencies": {
+        "jb-v-alert": "^1.0.1",
+        "jb-v-auth": "^1.0.0",
+        "jb-v-barrasuperior": "^1.0.0",
+        "jb-v-datatable-crud": "^1.0.6",
+        "jb-v-dialog": "^1.0.2",
+        "jb-v-filepond": "^1.0.0",
+        "jb-v-form": "^1.0.4",
+        "jb-v-icon": "^1.0.0",
+        "jb-v-iconevoltar": "^1.0.0",
+        "jb-v-loading": "^1.0.1",
+        "jb-v-menubloco": "^1.0.5",
+        "jb-v-menucircular-mensagens": "^1.0.0",
+        "jb-v-menucircular-suspenso": "^1.0.0",
+        "jb-v-menucircular-usuario": "^1.0.1",
+        "jb-v-menulateral": "^1.0.0",
+        "jb-v-plugin-global": "^1.0.3"
+    }
+}

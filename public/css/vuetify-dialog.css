@@ -1,0 +1,28 @@
+.vuedl-notification {
+    left: 0 !important;
+    max-width: none !important;
+    width: 100%;
+
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.5;
+}
+
+.vuedl-notification.left {
+    bottom: 0 !important;
+}
+
+.vuedl-notification.right {
+    top: 0 !important;
+}
+
+.vuedl-notification .v-alert {
+    text-align: center
+}
+
+.vuedl-notification .v-alert__icon {
+    display: none;
+}
+
+.vuedl-notification .v-alert__dismissible {
+    cursor: pointer;
+}

@@ -1,0 +1,32 @@
+.alerta-mensagens.v-alert.v-alert--outline {
+    border-top: 3px solid !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+    border-left: 0 !important;
+}
+
+.v-btn-remove-fundo-before:before, .v-btn-remove-fundo-before:focus:before, .v-btn-remove-fundo-before:hover:before {
+    background-color: transparent;
+}
+.v-badge-sem-topright .v-badge__badge{
+    top: 0;
+    right: 0;
+}
+
+/* ======= SNACKBARS */
+.v-snack__wrapper {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+}
+
+.v-snack__content{ justify-content: center; }
+
+/* ======= SNACKBARS */
+.d-contents{
+    display: contents !important;
+}
+
+.v-btn {
+    min-width:28px
+}

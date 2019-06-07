@@ -1,0 +1,15 @@
+.fundo-zebra > *:nth-child(even) {
+    background-color: #eee
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.icon-botao {
+    cursor: pointer;
+}
+
+a:hover{
+    text-decoration: none
+}
