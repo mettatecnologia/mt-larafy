@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 -- Structure for view `v_sys_now`
 --
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_sys_now`  AS  select (utc_timestamp() + interval -(3) hour) AS `datetime` ;
+CREATE VIEW `v_sys_now`  AS  select (utc_timestamp() + interval -(3) hour) AS `datetime` ;
 
 --
 -- VIEW  `v_sys_now`

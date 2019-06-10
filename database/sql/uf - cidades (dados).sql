@@ -26,17 +26,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `uf`
---
-
-CREATE TABLE IF NOT EXISTS `uf` (
-  `cod` int(11) NOT NULL,
-  `uf` varchar(100) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  PRIMARY KEY (`cod`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
 -- Extraindo dados da tabela `uf`
 --
 
@@ -69,18 +58,6 @@ INSERT INTO `uf` (`cod`, `uf`, `nome`) VALUES
 (52, 'GO', 'Goiás'),
 (53, 'DF', 'Distrito Federal');
 
---
--- Estrutura da tabela `cidades`
---
-
-CREATE TABLE IF NOT EXISTS `cidades` (
-  `cod` int(11) NOT NULL,
-  `cod_uf` int(11) NOT NULL,
-  `codcomdv` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  PRIMARY KEY (`cod`),
-  KEY `fk_cidades_ufs1_idx` (`cod_uf`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `cidades`
@@ -5657,19 +5634,6 @@ INSERT INTO `cidades` (`cod`, `cod_uf`, `codcomdv`, `nome`) VALUES
 (522230, 52, 5222302, 'VILA PROPÍCIO'),
 (530010, 53, 5300108, 'BRASÍLIA');
 
--- --------------------------------------------------------
-
-
---
--- Constraints for dumped tables
---
-
---
--- Limitadores para a tabela `cidades`
---
-ALTER TABLE `cidades`
-  ADD CONSTRAINT `fk_cidades_ufs1` FOREIGN KEY (`cod_uf`) REFERENCES `uf` (`cod`);
-SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

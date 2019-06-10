@@ -25,6 +25,8 @@ class CreateUfTable extends Migration
             $table->increments('cod');
             $table->string('uf', 100);
             $table->string('nome', 100);
+
+            $table->unique(["cod"], 'cod_UNIQUE');
         });
     }
 

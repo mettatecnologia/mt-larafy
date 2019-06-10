@@ -28,15 +28,15 @@ class CreateUsersTable extends Migration
             $table->enum('papel', ['SUP', 'ADM', 'USR'])->default('USR');
             $table->timestamp('email_verified_at')->nullable()->default(null);
             $table->rememberToken();
-            $table->enum('ativo', ['0', '1']);
+            $table->tinyInteger('ativo');
+
+            $table->unique(["id"], 'id_UNIQUE');
 
             $table->index(["pessoa_id"], 'fk_users_pessoas_idx');
-
-
             $table->foreign('pessoa_id', 'fk_users_pessoas_idx')
                 ->references('id')->on('pessoas')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
         });
     }
 

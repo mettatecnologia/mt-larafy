@@ -3,10 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 07-Jun-2019 às 20:15
+-- Generation Time: 07-Jun-2019 às 20:23
 -- Versão do servidor: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -24,16 +25,27 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
---
--- Structure for view `v_uf_cidades`
---
-
-CREATE  VIEW `v_uf_cidades`  AS  select `a`.`cod` AS `uf_cod`,`a`.`uf` AS `uf`,`a`.`nome` AS `uf_nome`,`b`.`cod` AS `cidade_cod`,`b`.`codcomdv` AS `cidadecodcomdv`,`b`.`nome` AS `cidade_nome` from (`uf` `a` join `cidades` `b` on((`b`.`cod_uf` = `a`.`cod`))) ;
 
 --
--- VIEW  `v_uf_cidades`
--- Data: Nenhum
+-- Extraindo dados da tabela `pessoas`
 --
+
+INSERT INTO `pessoas` (`id`, `nome`, `email`, `dtanascimento`, `logradouro_tipo`, `logradouro`, `logradouro_numero`, `logradouro_bairro`, `telefone`, `ativo`) VALUES
+(1, 'admin', 'admin@admin.com', NULL, NULL, NULL, NULL, NULL, NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `users`
+--
+
+
+--
+-- Extraindo dados da tabela `users`
+--
+
+INSERT INTO `users` (`id`, `pessoa_id`, `password`, `papel`, `email_verified_at`, `remember_token`, `ativo`) VALUES
+(1, 1, '$2y$10$Cv6rmMV8CKUXlSO5lRNewO0BownaR0y5nzAE4hefo85ZMN2IknDRy', 'ADM', NULL, 'G1dC3AO07KX4lwDhcElJr7AWoCCObsKX4UZdG2svv0Kfr25lppw2FKtZSff3', '1');
 
 COMMIT;
 

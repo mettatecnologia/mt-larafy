@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 -- Structure for view `v_users`
 --
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`larafy`@`127.0.0.1` SQL SECURITY DEFINER VIEW `v_users`  AS  select `a`.`id` AS `id`,`a`.`pessoa_id` AS `pessoa_id`,`a`.`password` AS `password`,`a`.`papel` AS `papel`,`a`.`email_verified_at` AS `email_verified_at`,`a`.`remember_token` AS `remember_token`,`a`.`ativo` AS `ativo`,`b`.`nome` AS `nome`,`b`.`email` AS `email` from (`users` `a` join `pessoas` `b` on((`b`.`id` = `a`.`pessoa_id`))) ;
+CREATE VIEW `v_users`  AS  select `a`.`id` AS `id`,`a`.`pessoa_id` AS `pessoa_id`,`a`.`password` AS `password`,`a`.`papel` AS `papel`,`a`.`email_verified_at` AS `email_verified_at`,`a`.`remember_token` AS `remember_token`,`a`.`ativo` AS `ativo`,`b`.`nome` AS `nome`,`b`.`email` AS `email` from (`users` `a` join `pessoas` `b` on((`b`.`id` = `a`.`pessoa_id`))) ;
 
 --
 -- VIEW  `v_users`

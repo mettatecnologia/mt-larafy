@@ -26,16 +26,16 @@ class CreateLogsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->dateTime('datahora');
             $table->enum('nivel', ['EMERG', 'ALERT', 'CRIT', 'ERR', 'WARN', 'NOTIC', 'INFO', 'DEBUG']);
-            $table->string('mensagem');
-            $table->string('extra')->nullable();
+            $table->string('mensagem', 191);
+            $table->string('extra', 191)->nullable()->default(null);
 
-            $table->index(["user_id"], 'fk_logs_users1_idx');
+            $table->unique(["id"], 'id_UNIQUE');
 
-
-            $table->foreign('user_id', 'fk_logs_users1_idx')
+            $table->index(["user_id"], 'fk_logs_users_idx');
+            $table->foreign('user_id', 'fk_logs_users_idx')
                 ->references('id')->on('users')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
         });
     }
 
