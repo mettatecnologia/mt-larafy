@@ -11,7 +11,6 @@
         disable-initial-sort
 
         dialog-persistent
-        dialog-mostrar
 
         :vueapiquery-model="ModelPessoa"
         v-model="pessoa"
@@ -43,7 +42,7 @@
                     <jb-text v-model="pessoa.logradouro_numero" name="logradouro_numero" regras="required" mascara='integer' label="Numero" ></jb-text>
                 </v-flex>
                 <v-flex xs12 md3 class="px-1">
-                    <jb-text v-model="pessoa.logradouro_bairro" name="logradouro_bairro" regras="required" label="Bairro" ></jb-text>
+                    <jb-text v-model="pessoa.bairro" name="bairro" regras="required" label="Bairro" ></jb-text>
                 </v-flex>
             </v-layout>
 
@@ -63,8 +62,8 @@
             </v-layout>
         </template>
 
-        <template v-slot:actionsExtra="{itens}">
-            <jb-icon small :color="dadosActionIconeUsuario(itens.item)['cor']" :tt-text="itens.item.tem_usuario ? 'Alterar usuario' : 'Conceder usuario'" @click="abrirAcesso(itens)" > {{dadosActionIconeUsuario(itens.item)['icone']}}  </jb-icon>
+        <template v-slot:actionsExtra="{datatable_props}">
+            <jb-icon small :color="dadosActionIconeUsuario(datatable_props.item)['cor']" :tt-text="datatable_props.item.tem_usuario ? 'Alterar usuario' : 'Conceder usuario'" @click="abrirAcesso(datatable_props)" > {{dadosActionIconeUsuario(datatable_props.item)['icone']}}  </jb-icon>
         </template>
 
     </jb-datatable-crud>
@@ -126,7 +125,7 @@ export default {
     },
     data() {
         return {
-            pessoa:{id:null,nome:null,email:null,ativo:true,dtanascimento:null,logradouro_tipo:'Rua',logradouro:null,logradouro_numero:null,logradouro_bairro:null,telefone:null,},
+            pessoa:{id:null,nome:null,email:null,ativo:true,dtanascimento:null,logradouro_tipo:'Rua',logradouro:null,logradouro_numero:null,bairro:null,telefone:null,},
             ModelPessoa: new Pessoa({}),
             loading:{
                 mostrar:false
@@ -184,6 +183,7 @@ export default {
     created () {
         this.datatable.itens = JSON.parse(this.pessoas)
         this.usuario.form.papeis = JSON.parse(this.papeis)
+
     },
     watch:{
         'form.cidade'(cidade){

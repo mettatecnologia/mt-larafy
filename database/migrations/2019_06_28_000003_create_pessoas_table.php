@@ -25,15 +25,14 @@ class CreatePessoasTable extends Migration
             $table->increments('id');
             $table->string('nome', 191);
             $table->string('email', 191);
-            $table->date('dtanascimento')->nullable()->default(null);
-            $table->string('logradouro_tipo', 45)->nullable()->default(null);
-            $table->string('logradouro', 100)->nullable()->default(null);
-            $table->integer('logradouro_numero')->nullable()->default(null);
-            $table->string('logradouro_bairro', 45)->nullable()->default(null);
-            $table->string('telefone', 15)->nullable()->default(null);
+            $table->enum('papel', ['SUP', 'ADM', 'USR'])->default('USR');
+            $table->date('dtanascimento')->nullable();
+            $table->string('logradouro_tipo', 45)->nullable();
+            $table->string('logradouro', 100)->nullable();
+            $table->integer('logradouro_numero')->nullable();
+            $table->string('bairro', 45)->nullable();
+            $table->string('telefone', 15)->nullable();
             $table->tinyInteger('ativo');
-
-            $table->unique(["id"], 'id_UNIQUE');
 
             $table->unique(["email"], 'email_UNIQUE');
         });

@@ -14,7 +14,8 @@
 Route::get('/', function () { return view('welcome'); });
 
 Route::namespace ('Base')->group(function () {
-    Route::get('verificar-email/{email}', 'Controller@verificarEmail');
+    Route::get('verificar-email/{email}/{ignore_user_id?}', 'Controller@verificarEmail');
+    Route::get('buscarCidadesPorEstado/{uf}', 'Controller@buscarCidadesPorEstado');
 });
 
 Route::middleware(['guest'])->group(function () {
@@ -35,22 +36,16 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::namespace ('Auth')->group(function () {
-        Route::post('logout', 'LoginController@logout')->name('logout');
-    });
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-    Route::resource('perfil', 'PerfilController');
     Route::get('verificar-email-perfil/{email}', 'PerfilController@verificarEmailPerfil');
     Route::post('/mudar-senha', 'PerfilController@mudarSenha')->name('mudar-senha');
 
-    Route::namespace ('Base')->group(function () {
-        Route::get('buscarCidadesPorEstado/{uf}', 'Controller@buscarCidadesPorEstado');
-    });
+    Route::post('validar-senha', 'Base\Controller@validarSenha');
 
+    Route::resource('perfil', 'PerfilController');
     Route::resource('configs', 'CrudConfiguracoesController');
-
-
-    Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('pessoas', 'CrudPessoasController');
     Route::post('pessoas/alterar-acesso', 'CrudPessoasController@alterarAcesso');
 

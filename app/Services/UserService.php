@@ -5,52 +5,21 @@ namespace App\Services;
 use App\Services\AllService;
 
 use Illuminate\Support\Facades\Validator;
-// use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 use Illuminate\Http\Request;
 
-use App\Models\AllModel;
-use App\Models\Tables\User;
-use App\Models\Views\VUser;
-
 class UserService extends AllService  {
-
-    use \App\Traits\TAuth;
-
-    const PAPEL_SUPER = 'SUP';
-    const PAPEL_ADMINISTRADOR = 'ADM';
-    const PAPEL_CLIENTE = 'USR';
-
-    private static $papeis=[];
 
     public function __construct(){
         $this->setPapeis();
     }
 
-    public static function setPapeis(){
-        $ColunaInfo = AllModel::getColunaInfo('users','papel');
-        if($ColunaInfo->DATA_TYPE=='enum'){
-            self::$papeis = AllModel::extrairValoresEnum($ColunaInfo->COLUMN_TYPE);
-        }
-    }
-
-    public static function getPapeis(){
-        $papeis = self::$papeis;
-        if(self::user()->papel!=self::PAPEL_SUPER){
-            $papeis = array_diff($papeis, [self::PAPEL_SUPER]);
-        }
-        $papeis = array_values($papeis);
-        return $papeis;
-    }
-
-    public static function validator(array $data)
+    public static function validator(array $data, int $ignore_pessoa_id=null, bool $ignore_password=false)
     {
-        $id = key_exists('id',$data)?$data['id']:null;
-
         $regras = [
-            'email' => ['required', 'string', 'email', 'max:255',  Rule::unique('pessoas')->ignore($id)],
-            'password' => self::getRegrasSenhas()
+            'email' => ['required', 'string', 'email', 'max:255',  Rule::unique('pessoas')->ignore($ignore_pessoa_id)],
+            'password' => $ignore_password ? [] : self::getRegrasSenhas()
         ];
 
         return Validator::make($data, $regras);

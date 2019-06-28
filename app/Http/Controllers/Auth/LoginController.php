@@ -49,7 +49,7 @@ class LoginController extends Controller
             }
 
             $User = $request->user();
-            $retorno = self::criarArrayPadraoMensagens('Tudo certo, vamos entrar!');
+            $retorno = self::criarArrayPadraoMensagens('Tudo certo');
             $retorno['dados'] = [
                 'token'=>$token,
                 'user'=>$User,

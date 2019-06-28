@@ -17,8 +17,9 @@ use App\Traits\TConfig;
 use App\Traits\TLog;
 use App\Traits\TException;
 
+use App\Models\Tables\User;
+use App\Models\Tables\Pessoa;
 use App\Models\Views\VUfCidade;
-use App\Models\Views\VUser;
 
 class Controller extends BaseController
 {
@@ -38,12 +39,11 @@ class Controller extends BaseController
         return response()->json(['__response'=>$retorno]);
     }
 
-    public function verificarEmail($email)
+    public function verificarEmail($email, $ignore_pessoa_id=0)
     {
         $retorno = self::$retorno_padrao;
-
         try {
-            $busca = VUser::where('email',$email)->first();
+            $busca = Pessoa::where('email',$email)->where('id','<>',$ignore_pessoa_id)->first();
             $dados = [
                 'existe' => $busca !== null
             ];
@@ -55,6 +55,30 @@ class Controller extends BaseController
 
         return response()->json(['__response'=>$retorno]);
     }
+
+    public function validarSenha(Request $request)
+    {
+        $retorno = self::$retorno_padrao;
+        $dados = $request->except(['__response']);
+        $pessoa_id = $dados['pessoa_id'] ?? self::pessoaId();
+        $senha = $dados['senha'];
+        try {
+            $User = User::where('pessoa_id',$pessoa_id)->first();
+            if( ! $User){
+                self::lancarException("Usuário não foi encontrado.", 1);
+            }
+
+            $senha_certa = (\Illuminate\Support\Facades\Hash::check($senha, $User->password));
+            $retorno['dados']['senha_certa'] = $senha_certa;
+
+        } catch (AllException $exc) {
+            $retorno = self::getDefaultCatchReturn($exc);
+        }
+
+        return response()->json(['__response'=>$retorno]);
+    }
+
+
 
 
 

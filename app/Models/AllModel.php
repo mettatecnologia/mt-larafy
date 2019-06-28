@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 use App\Traits\TGeneric;
 use App\Traits\TConfig;
+use App\Traits\TException;
+use App\Traits\TLog;
 
 
 /**
@@ -21,7 +23,7 @@ and a.table_name='tabela'
 
 class AllModel extends Model {
 
-    use TGeneric, TConfig;
+    use TGeneric, TConfig, TException, TLog;
 
     const CREATED_AT = 'dtainclusao';
     const UPDATED_AT = 'dtaalteracao';

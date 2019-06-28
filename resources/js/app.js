@@ -31,8 +31,8 @@ Vue.use(Vuetify, {
 /**
  ================= COMPONENTES
  */
-// require('../../metta/js/components');
 require('@/registros/metta');
+require('@/registros/_partes');
 require('@/registros/perfil');
 require('@/registros/outros');
 

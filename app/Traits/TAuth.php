@@ -4,20 +4,13 @@ namespace App\Traits;
 
 use Auth;
 
-use App\Services\UserService;
+use App\Services\PessoaService;
+use App\Models\Tables\Pessoa;
 
 trait TAuth {
 
     protected static function user(){
         return Auth::user();
-    }
-
-    protected static function userPapel(){
-        return self::user()->papel;
-    }
-
-    protected static function userPapeis(){
-        return (new UserService)->getPapeis();
     }
 
     protected static function userId(){
@@ -26,5 +19,13 @@ trait TAuth {
 
     protected static function pessoaId(){
         return self::user()->pessoa_id;
+    }
+
+    protected static function pessoaPapel(){
+        return Pessoa::find(self::pessoaId())->papel;
+    }
+
+    protected static function pessoaPapeis(){
+        return (new PessoaService)->getPapeis();
     }
 }

@@ -1988,7 +1988,7 @@ const validacaoMixin = {
             if(regra.indexOf('email-unique')==0){
                 let email_valido = this.$buscarRegExp('email').test(this.value)
                 if( ! email_valido){ return true }
-                return this.__email_unique_regra(params[0])
+                return this.__email_unique_regra(params)
             }
         },
 
@@ -2108,14 +2108,34 @@ const validacaoMixin = {
             return true
         },
 
-        __email_unique_regra(url){
-            let value = this.value
+        __email_unique_regra(params){
+            let url = 'verificar-email'
+            let ignore_id = null
+
+            for(let i in params){
+                let param = params[i]
+                let [nome, valor] = param.split('=')
+                switch (nome) {
+                    case 'url':
+                        url = valor
+                        break;
+                    case 'ignore_id':
+                        ignore_id = valor
+                        break;
+                }
+            }
+
+            let email = this.value
 
             if(url=='local'){ /** nada ainda */}
             else {
-                url = url ? url :'verificar-email'
+                url = '/'+url+'/'+email
+                if(ignore_id){
+                    url += '/'+ignore_id
+                }
+
                 let promisse = axios__WEBPACK_IMPORTED_MODULE_0___default.a
-                    .get('/'+url+'/'+value)
+                    .get(url)
                     .then(v => {
                         let response = v.data.__response
                         if( ! response.erro){
@@ -4569,6 +4589,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -4583,15 +4619,16 @@ __webpack_require__.r(__webpack_exports__);
         nome: null,
         nome_interno: null,
         descricao: null,
-        valor: null,
-        ativo: true
+        ativo: true,
+        valores: [null]
       },
-      ModelConfig: new _models_Config__WEBPACK_IMPORTED_MODULE_0__["default"](this.config),
+      ModelConfig: new _models_Config__WEBPACK_IMPORTED_MODULE_0__["default"]({}),
       loading: {
         mostrar: false
       },
       form: {
-        valid: false
+        valid: false,
+        mostrar_campo_nome: true
       },
       datatable: {
         search: '',
@@ -4604,13 +4641,15 @@ __webpack_require__.r(__webpack_exports__);
           value: 'nome',
           align: 'center'
         }, {
-          text: 'Nome interno',
-          value: 'nome_interno',
-          align: 'center'
-        }, {
-          text: 'Valor',
-          value: 'valor',
-          align: 'center'
+          text: 'Valores',
+          value: 'valores',
+          align: 'center',
+          metodo: function metodo(v) {
+            var result = v.filter(function (el) {
+              return el != null;
+            });
+            return result.length > 0 ? v.join(', ') : null;
+          }
         }, {
           text: 'Ações',
           value: 'acoes',
@@ -4633,6 +4672,22 @@ __webpack_require__.r(__webpack_exports__);
 
       this.config.nome_interno = v;
     }
+  },
+  methods: {
+    preEditar: function preEditar(item) {
+      this.form.mostrar_campo_nome = false;
+      return item;
+    },
+    preNovo: function preNovo() {
+      this.config.valores = [''];
+      this.form.mostrar_campo_nome = true;
+    },
+    addValor: function addValor(index) {
+      this.config.valores.splice(index + 1, 0, '');
+    },
+    remValor: function remValor(index) {
+      this.config.valores.splice(index, 1);
+    }
   }
 });
 
@@ -4648,7 +4703,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_Pessoa__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/models/Pessoa */ "./resources/js/models/Pessoa.js");
-//
 //
 //
 //
@@ -4781,7 +4835,7 @@ __webpack_require__.r(__webpack_exports__);
         logradouro_tipo: 'Rua',
         logradouro: null,
         logradouro_numero: null,
-        logradouro_bairro: null,
+        bairro: null,
         telefone: null
       },
       ModelPessoa: new _models_Pessoa__WEBPACK_IMPORTED_MODULE_0__["default"]({}),
@@ -4937,6 +4991,144 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/_partes/FormConfirmarSenha.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/_partes/FormConfirmarSenha.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    value: Object,
+    titulo: {
+      type: String,
+      "default": 'Digite sua senha'
+    }
+  },
+  created: function created() {},
+  data: function data() {
+    return {
+      dados: {
+        senha: null,
+        pessoa_id: null,
+        abrir: false,
+        senhaconfirmada: null,
+        alerta: {
+          mensagens: [],
+          color: null,
+          detalhes: null
+        }
+      },
+      form: {
+        valid: null,
+        reset_validation: false
+      },
+      loading: {
+        mostrar: false
+      }
+    };
+  },
+  computed: {
+    vmodel: function vmodel() {
+      return this.value || this.dados;
+    }
+  },
+  methods: {
+    fechar: function fechar() {
+      this.vmodel.abrir = false;
+    },
+    confirmarSenha: function confirmarSenha() {
+      var _this = this;
+
+      this.loading.mostrar = true;
+      var dados = {
+        pessoa_id: this.vmodel.pessoa_id,
+        senha: this.vmodel.senha
+      };
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("validar-senha", dados).then(function (v) {
+        var response = v.data.__response;
+        _this.vmodel.senhaconfirmada = false;
+
+        if (response.erro) {
+          _this.$dialog.error({
+            title: 'Alerta!',
+            text: 'Falha ao validar a senha, entre em contato com a FideliCred',
+            actions: [{
+              text: 'Ok'
+            }]
+          });
+        } else {
+          _this.vmodel.senha = null;
+
+          if (response.dados.senha_certa) {
+            _this.vmodel.senhaconfirmada = true;
+          } else {
+            _this.$dialog.error({
+              title: 'Alerta!',
+              text: 'A senha digitada está incorreta',
+              actions: [{
+                text: 'Ok'
+              }]
+            });
+          }
+        }
+      })["finally"](function (v) {
+        return _this.loading.mostrar = false;
+      });
+    }
+  },
+  watch: {
+    'vmodel.abrir': function vmodelAbrir(abrir) {
+      if (!abrir) {
+        this.vmodel.senha = null;
+      }
+    }
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/perfil/AlterarDadosForm.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/perfil/AlterarDadosForm.vue?vue&type=script&lang=js& ***!
@@ -5004,7 +5196,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      usuario: {
+      pessoa: {
         id: null,
         nome: null,
         email: null,
@@ -5013,7 +5205,7 @@ __webpack_require__.r(__webpack_exports__);
         logradouro_tipo: 'Rua',
         logradouro: null,
         logradouro_numero: null,
-        logradouro_bairro: null,
+        bairro: null,
         telefone: null
       },
       ModelPerfil: new _Perfil__WEBPACK_IMPORTED_MODULE_0__["default"]({}),
@@ -5032,14 +5224,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    Object.assign(this.usuario, JSON.parse(this.perfil));
+    Object.assign(this.pessoa, JSON.parse(this.perfil));
   },
   methods: {
     alterarPerfil: function alterarPerfil(e, validate) {
       var _this = this;
 
       this.loading.mostrar = true;
-      this.ModelPerfil.preparaItem(this.usuario).createAndSave().then(function (v) {
+      this.ModelPerfil.preparaItem(this.pessoa).createAndSave().then(function (v) {
         _this.loading.mostrar = false;
         var response = v.__response;
 
@@ -5147,6 +5339,10 @@ __webpack_require__.r(__webpack_exports__);
         if (response.erro) {
           _this.form.mensagens = _this.$criarObjetoMensagensForm(response.mensagens[0], response.mensagens_tipo);
           _this.loading.mostrar = false;
+
+          _this.$dialog.message.error(response.mensagens.join('-'), {
+            timeout: 5000
+          });
         } else {
           _this.form.senha_atual = null;
           _this.form.senha_nova = null;
@@ -31416,6 +31612,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -31433,6 +31631,7 @@ __webpack_require__.r(__webpack_exports__);
         //form
         action:String, csrf:String,
         formValid:{type:Boolean, default:true},
+        formMensagens:{type:Object, default:{mensagens:null, tipo:null, detalhes:null}},
 
         //---- Toolbar
         toolbarBtnTitulo:String,
@@ -31449,17 +31648,12 @@ __webpack_require__.r(__webpack_exports__);
         dialogPersistent:Boolean,
         dialogMaxWidth:String,
         dialogFullscreen:Boolean,
+        dialogMostrar:Boolean,
 
         //actions
         preNovo:{type:Function, default:v=>(v)},
         posNovo:{type:Function, default:v=>(v)},
-        preEditar:{type:Function, default:function(item){
-                if(item.hasOwnProperty('ativo')){
-                    item.ativobool = item.ativo=='S'
-                }
-                return item;
-            }
-        },
+        preEditar:{type:Function, default:v=>(v)},
         posEditar:{type:Function, default:v=>(v)},
         preAtivarInativar:{type:Function, default:v=>(v)},
         posAtivarInativar:{type:Function, default:v=>(v)},
@@ -31480,15 +31674,17 @@ __webpack_require__.r(__webpack_exports__);
             AxiosModel: this.vueapiqueryModel,
 
             dialog:{
-                mostrar: false,
+                mostrar: this.dialogMostrar,
             },
             form: {
                 valid: false,
                 reset: false,
                 resetValidation: false,
-                mensagens: null,
-                mensagens_tipo: null,
-                mensagens_detalhes: null,
+                mensagens:{
+                    mensagens:null,
+                    tipo:null,
+                    detalhes:null,
+                },
             },
             loading:{
                 mostrar:false
@@ -31512,21 +31708,45 @@ __webpack_require__.r(__webpack_exports__);
         this.datatable.items = typeof this.items=='string' ? JSON.parse(this.items) : this.items
         this.initialize()
     },
-    mounted(){
-    },
     watch:{
         'dialog.mostrar'(abrindo){
-            if(abrindo){
-                //seta focus no mozilla firefox e edge
-                let campo = 'form'
-                this.$setFocus(campo)
-            }
-
+            //seta focus no mozilla firefox e edge
+            if(abrindo){ this.$setFocus('form') }
         },
+        formMensagens:{
+            handler(v){
+                this.form.mensagens = this.$criarObjetoMensagensForm(this.formMensagens.mensagens, this.formMensagens.tipo, this.formMensagens.detalhes);
+            },
+            deep:true
+        }
     },
     methods: {
+        headerFunction(header, value){
+            if(header.metodo){
+                value = header.metodo(value)
+            }
+            if(header.format || header.formato){
+                let formato = header.format || header.formato
+                switch (formato) {
+                    case 'datetime':
+                    case 'date':
+                        if(value){ value = this.$passaDatetimeParaPtbr(value) }
+                        break;
+                    case 'credit-card':
+                    case 'cartao-credito':
+                        if(value){ value = this.$formataNumeroParaCartaoCredito(value) }
+                        break;
+                    case 'currency':
+                    case 'moeda':
+                        if(value){ value = this.$formataNumeroParaMoeda(value) }
+                        break;
+                }
+
+            }
+            return value
+        },
         initialize(){
-            this.form.mensagens = null
+            this.form.mensagens = this.$criarObjetoMensagensForm(this.formMensagens.mensagens, this.formMensagens.tipo, this.formMensagens.detalhes);
             this.form.reset = true
             this.form.resetValidation = true
 
@@ -31645,8 +31865,7 @@ __webpack_require__.r(__webpack_exports__);
         ativarInativar(item){
 
             item = this.preAtivarInativar(item)
-
-            item.ativobool = item.ativo=='N' //inverte os ativo
+            item.ativo = item.ativo ? 0 : 1
 
             this.AxiosModel
                 .preparaRequest({url:this.httpUrl})
@@ -31657,9 +31876,7 @@ __webpack_require__.r(__webpack_exports__);
                     let response = v.__response
 
                     if(response.erro){
-                        this.form.mensagens = response.mensagens
-                        this.form.mensagens_tipo = response.mensagens_tipo
-                        this.form.mensagens_detalhes = response.exception
+                        this.form.mensagens = this.$criarObjetoMensagensForm(response.mensagens[0], response.mensagens_tipo, response.exception);
                     }
                     else {
                         let indexItem = this.datatable.items.indexOf(item)
@@ -31710,9 +31927,7 @@ __webpack_require__.r(__webpack_exports__);
                     let response = v.__response
 
                     if(response.erro){
-                        this.form.mensagens = response.mensagens
-                        this.form.mensagens_tipo = response.mensagens_tipo
-                        this.form.mensagens_detalhes = response.exception
+                        this.form.mensagens = this.$criarObjetoMensagensForm(response.mensagens[0], response.mensagens_tipo, response.exception);
                     }
                     else {
                         if (indexItem > -1) {
@@ -34433,7 +34648,16 @@ var render = function() {
                           ? _c(
                               "td",
                               { key: key, staticClass: "text-xs-center" },
-                              [_vm._v(_vm._s(props.item[cada.value]))]
+                              [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.headerFunction(
+                                      cada,
+                                      props.item[cada.value]
+                                    )
+                                  )
+                                )
+                              ]
                             )
                           : _vm._e()
                       ]
@@ -34443,80 +34667,94 @@ var render = function() {
                       "td",
                       { staticClass: "justify-center layout px-0" },
                       [
-                        _vm._t("actions", [
-                          _c(
-                            "div",
-                            { staticClass: "mr-2 mt-3" },
-                            [
-                              _vm.podeEditar
-                                ? _c(
-                                    "jb-icon",
-                                    {
-                                      attrs: { small: "", "tt-text": "Editar" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.editar(props.item)
+                        _vm._t(
+                          "actions",
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "mr-2 mt-3" },
+                              [
+                                _vm._t("actionsExtra", null, {
+                                  datatable_props: props
+                                }),
+                                _vm._v(" "),
+                                _vm.podeEditar
+                                  ? _c(
+                                      "jb-icon",
+                                      {
+                                        attrs: {
+                                          color: "orange",
+                                          small: "",
+                                          "tt-text": "Editar"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.editar(props.item)
+                                          }
                                         }
-                                      }
-                                    },
-                                    [_vm._v(" edit ")]
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm.podeDeletar
-                                ? _c(
-                                    "jb-icon",
-                                    {
-                                      attrs: {
-                                        small: "",
-                                        "tt-text": "Deletar"
                                       },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.deletarConfirm(props.item)
+                                      [_vm._v(" edit ")]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.podeDeletar
+                                  ? _c(
+                                      "jb-icon",
+                                      {
+                                        attrs: {
+                                          color: "red",
+                                          small: "",
+                                          "tt-text": "Deletar"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.deletarConfirm(
+                                              props.item
+                                            )
+                                          }
                                         }
-                                      }
-                                    },
-                                    [_vm._v(" delete ")]
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm.podeAtivarInativar
-                                ? _c(
-                                    "jb-icon",
-                                    {
-                                      attrs: {
-                                        small: "",
-                                        "tt-text":
-                                          props.item.ativo != "N"
+                                      },
+                                      [_vm._v(" delete ")]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.podeAtivarInativar
+                                  ? _c(
+                                      "jb-icon",
+                                      {
+                                        attrs: {
+                                          small: "",
+                                          "tt-text": props.item.ativo
                                             ? "Inativar"
                                             : "Ativar"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.ativarInativarConfirm(
-                                            props.item
-                                          )
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.ativarInativarConfirm(
+                                              props.item
+                                            )
+                                          }
                                         }
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        " " +
-                                          _vm._s(
-                                            props.item.ativo != "N"
-                                              ? "fas fa-level-down-alt"
-                                              : "fas fa-level-up-alt"
-                                          ) +
-                                          " "
-                                      )
-                                    ]
-                                  )
-                                : _vm._e()
-                            ],
-                            1
-                          )
-                        ])
+                                      },
+                                      [
+                                        _vm._v(
+                                          " " +
+                                            _vm._s(
+                                              props.item.ativo
+                                                ? "fas fa-level-down-alt"
+                                                : "fas fa-level-up-alt"
+                                            ) +
+                                            " "
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e()
+                              ],
+                              2
+                            )
+                          ],
+                          { itens: props }
+                        )
                       ],
                       2
                     )
@@ -34581,9 +34819,9 @@ var render = function() {
               ref: "form",
               attrs: {
                 validar: "",
-                mensagens: _vm.form.mensagens,
-                "mensagens-tipo": _vm.form.mensagens_tipo,
-                "mensagens-detalhes": _vm.form.mensagens_detalhes,
+                mensagens: _vm.form.mensagens.mensagens,
+                "mensagens-tipo": _vm.form.mensagens.tipo,
+                "mensagens-detalhes": _vm.form.mensagens.detalhes,
                 reset: _vm.form.reset,
                 "reset-validation": _vm.form.resetValidation
               },
@@ -34607,7 +34845,7 @@ var render = function() {
               }
             },
             [
-              _vm._t("form"),
+              _vm._t("form", null, { datatable_form: _vm.form }),
               _vm._v(" "),
               _c(
                 "v-card-actions",
@@ -36221,9 +36459,10 @@ var render = function() {
             pagination: _vm.datatable.pagination,
             "disable-initial-sort": "",
             "dialog-persistent": "",
-            "dialog-mostrar": "",
             "dialog-max-width": "500px",
-            "vueapiquery-model": _vm.ModelConfig
+            "vueapiquery-model": _vm.ModelConfig,
+            "pre-novo": _vm.preNovo,
+            "pre-editar": _vm.preEditar
           },
           model: {
             value: _vm.config,
@@ -36241,58 +36480,44 @@ var render = function() {
               _c(
                 "v-layout",
                 [
-                  _c(
-                    "v-flex",
-                    { attrs: { xs12: "", md12: "" } },
-                    [
-                      _c("jb-text", {
-                        attrs: {
-                          name: "nome",
-                          regras: "required",
-                          label: "Nome",
-                          hint:
-                            "Nome interno: " + (_vm.config.nome_interno || ""),
-                          "persistent-hint": ""
+                  _vm.form.mostrar_campo_nome
+                    ? _c(
+                        "v-flex",
+                        { attrs: { xs12: "", md12: "" } },
+                        [
+                          _c("jb-text", {
+                            attrs: {
+                              name: "nome",
+                              regras: "required",
+                              label: "Nome",
+                              hint:
+                                "Nome interno: " +
+                                (_vm.config.nome_interno || ""),
+                              "persistent-hint": ""
+                            },
+                            model: {
+                              value: _vm.config.nome,
+                              callback: function($$v) {
+                                _vm.$set(_vm.config, "nome", $$v)
+                              },
+                              expression: "config.nome"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    : _c(
+                        "v-flex",
+                        {
+                          staticClass: "mb-3 font-weight-bold",
+                          attrs: { xs12: "", md12: "" }
                         },
-                        model: {
-                          value: _vm.config.nome,
-                          callback: function($$v) {
-                            _vm.$set(_vm.config, "nome", $$v)
-                          },
-                          expression: "config.nome"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-layout",
-                [
-                  _c(
-                    "v-flex",
-                    { attrs: { xs12: "", md12: "" } },
-                    [
-                      _c("jb-text", {
-                        attrs: {
-                          name: "valor",
-                          regras: "required",
-                          label: "Valor"
-                        },
-                        model: {
-                          value: _vm.config.valor,
-                          callback: function($$v) {
-                            _vm.$set(_vm.config, "valor", $$v)
-                          },
-                          expression: "config.valor"
-                        }
-                      })
-                    ],
-                    1
-                  )
+                        [
+                          _c("span", [
+                            _vm._v("Nome: " + _vm._s(_vm.config.nome))
+                          ])
+                        ]
+                      )
                 ],
                 1
               ),
@@ -36305,7 +36530,11 @@ var render = function() {
                     { attrs: { xs12: "", md12: "" } },
                     [
                       _c("jb-textarea", {
-                        attrs: { name: "descricao", label: "Descrição" },
+                        attrs: {
+                          name: "descricao",
+                          label: "Descrição",
+                          rows: "3"
+                        },
                         model: {
                           value: _vm.config.descricao,
                           callback: function($$v) {
@@ -36320,6 +36549,97 @@ var render = function() {
                 ],
                 1
               ),
+              _vm._v(" "),
+              _c("v-layout", [
+                _c("span", { staticClass: "title font-italic grey--text" }, [
+                  _vm._v("Valores")
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.config.valores, function(item, key) {
+                return [
+                  _c(
+                    "v-layout",
+                    { key: key },
+                    [
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", md10: "" } },
+                        [
+                          _c("jb-text", {
+                            attrs: {
+                              name: "valor",
+                              label: "Valor",
+                              regras: "required"
+                            },
+                            model: {
+                              value: _vm.config.valores[key],
+                              callback: function($$v) {
+                                _vm.$set(_vm.config.valores, key, $$v)
+                              },
+                              expression: "config.valores[key]"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", md1: "" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { small: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addValor(key)
+                                }
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { small: "" } }, [
+                                _vm._v("add")
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", md1: "" } },
+                        [
+                          _vm.config.valores.length > 1
+                            ? _c(
+                                "v-btn",
+                                {
+                                  attrs: { small: "", color: "red", dark: "" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.remValor(key)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("v-icon", { attrs: { small: "" } }, [
+                                    _vm._v("remove")
+                                  ])
+                                ],
+                                1
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ]
+              }),
               _vm._v(" "),
               _c(
                 "v-layout",
@@ -36353,7 +36673,7 @@ var render = function() {
                 attrs: { "esta-carregando": _vm.loading.mostrar }
               })
             ],
-            1
+            2
           )
         ],
         2
@@ -36398,28 +36718,29 @@ var render = function() {
             pagination: _vm.datatable.pagination,
             "disable-initial-sort": "",
             "dialog-persistent": "",
-            "dialog-mostrar": "",
             "vueapiquery-model": _vm.ModelPessoa
           },
           scopedSlots: _vm._u([
             {
               key: "actionsExtra",
               fn: function(ref) {
-                var itens = ref.itens
+                var datatable_props = ref.datatable_props
                 return [
                   _c(
                     "jb-icon",
                     {
                       attrs: {
                         small: "",
-                        color: _vm.dadosActionIconeUsuario(itens.item)["cor"],
-                        "tt-text": itens.item.tem_usuario
+                        color: _vm.dadosActionIconeUsuario(
+                          datatable_props.item
+                        )["cor"],
+                        "tt-text": datatable_props.item.tem_usuario
                           ? "Alterar usuario"
                           : "Conceder usuario"
                       },
                       on: {
                         click: function($event) {
-                          return _vm.abrirAcesso(itens)
+                          return _vm.abrirAcesso(datatable_props)
                         }
                       }
                     },
@@ -36427,7 +36748,9 @@ var render = function() {
                       _vm._v(
                         " " +
                           _vm._s(
-                            _vm.dadosActionIconeUsuario(itens.item)["icone"]
+                            _vm.dadosActionIconeUsuario(datatable_props.item)[
+                              "icone"
+                            ]
                           ) +
                           "  "
                       )
@@ -36593,16 +36916,16 @@ var render = function() {
                     [
                       _c("jb-text", {
                         attrs: {
-                          name: "logradouro_bairro",
+                          name: "bairro",
                           regras: "required",
                           label: "Bairro"
                         },
                         model: {
-                          value: _vm.pessoa.logradouro_bairro,
+                          value: _vm.pessoa.bairro,
                           callback: function($$v) {
-                            _vm.$set(_vm.pessoa, "logradouro_bairro", $$v)
+                            _vm.$set(_vm.pessoa, "bairro", $$v)
                           },
-                          expression: "pessoa.logradouro_bairro"
+                          expression: "pessoa.bairro"
                         }
                       })
                     ],
@@ -36858,6 +37181,168 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/_partes/FormConfirmarSenha.vue?vue&type=template&id=92168f3c&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/_partes/FormConfirmarSenha.vue?vue&type=template&id=92168f3c& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("jb-loading", {
+        model: {
+          value: _vm.loading.mostrar,
+          callback: function($$v) {
+            _vm.$set(_vm.loading, "mostrar", $$v)
+          },
+          expression: "loading.mostrar"
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "v-card",
+        [
+          _c("v-card-title", [
+            _c("span", { staticClass: "headline" }, [
+              _vm._v(_vm._s(_vm.titulo))
+            ])
+          ]),
+          _vm._v(" "),
+          _c("jb-alerta", {
+            attrs: {
+              tipo: _vm.vmodel.alerta.color,
+              tooltip: _vm.vmodel.alerta.detalhes
+            },
+            model: {
+              value: _vm.vmodel.alerta.mensagens,
+              callback: function($$v) {
+                _vm.$set(_vm.vmodel.alerta, "mensagens", $$v)
+              },
+              expression: "vmodel.alerta.mensagens"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "v-card-text",
+            [
+              _c(
+                "jb-form",
+                {
+                  ref: "form",
+                  attrs: {
+                    validar: "",
+                    resetValidation: _vm.form.reset_validation,
+                    "cancelar-submit": ""
+                  },
+                  model: {
+                    value: _vm.form.valid,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form, "valid", $$v)
+                    },
+                    expression: "form.valid"
+                  }
+                },
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { row: "" } },
+                    [
+                      _c(
+                        "v-flex",
+                        {
+                          staticClass: "px-1 mr-3",
+                          attrs: { xs12: "", md12: "" }
+                        },
+                        [
+                          _c("jb-text", {
+                            attrs: {
+                              type: "password",
+                              autofocus: "",
+                              label: "Senha"
+                            },
+                            model: {
+                              value: _vm.vmodel.senha,
+                              callback: function($$v) {
+                                _vm.$set(_vm.vmodel, "senha", $$v)
+                              },
+                              expression: "vmodel.senha"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    { attrs: { slot: "botoes" }, slot: "botoes" },
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "primary", flat: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.fechar()
+                            }
+                          }
+                        },
+                        [_vm._v("Cancelar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            color: "primary",
+                            flat: "",
+                            disabled: !_vm.vmodel.senha
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.confirmarSenha()
+                            }
+                          }
+                        },
+                        [_vm._v("Confirmar")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/perfil/AlterarDadosForm.vue?vue&type=template&id=3f3b2810&":
 /*!**************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/perfil/AlterarDadosForm.vue?vue&type=template&id=3f3b2810& ***!
@@ -36933,11 +37418,11 @@ var render = function() {
                               label: "Nome"
                             },
                             model: {
-                              value: _vm.usuario.nome,
+                              value: _vm.pessoa.nome,
                               callback: function($$v) {
-                                _vm.$set(_vm.usuario, "nome", $$v)
+                                _vm.$set(_vm.pessoa, "nome", $$v)
                               },
-                              expression: "usuario.nome"
+                              expression: "pessoa.nome"
                             }
                           })
                         ],
@@ -36962,11 +37447,11 @@ var render = function() {
                               regras: "required"
                             },
                             model: {
-                              value: _vm.usuario.dtanascimento,
+                              value: _vm.pessoa.dtanascimento,
                               callback: function($$v) {
-                                _vm.$set(_vm.usuario, "dtanascimento", $$v)
+                                _vm.$set(_vm.pessoa, "dtanascimento", $$v)
                               },
-                              expression: "usuario.dtanascimento"
+                              expression: "pessoa.dtanascimento"
                             }
                           })
                         ],
@@ -36987,11 +37472,11 @@ var render = function() {
                           _c("jb-cmb-logradourotipo", {
                             attrs: { name: "logradouro_tipo", label: "Tipo" },
                             model: {
-                              value: _vm.usuario.logradouro_tipo,
+                              value: _vm.pessoa.logradouro_tipo,
                               callback: function($$v) {
-                                _vm.$set(_vm.usuario, "logradouro_tipo", $$v)
+                                _vm.$set(_vm.pessoa, "logradouro_tipo", $$v)
                               },
-                              expression: "usuario.logradouro_tipo"
+                              expression: "pessoa.logradouro_tipo"
                             }
                           })
                         ],
@@ -37009,11 +37494,11 @@ var render = function() {
                               label: "Logradouro"
                             },
                             model: {
-                              value: _vm.usuario.logradouro,
+                              value: _vm.pessoa.logradouro,
                               callback: function($$v) {
-                                _vm.$set(_vm.usuario, "logradouro", $$v)
+                                _vm.$set(_vm.pessoa, "logradouro", $$v)
                               },
-                              expression: "usuario.logradouro"
+                              expression: "pessoa.logradouro"
                             }
                           })
                         ],
@@ -37032,11 +37517,11 @@ var render = function() {
                               label: "Numero"
                             },
                             model: {
-                              value: _vm.usuario.logradouro_numero,
+                              value: _vm.pessoa.logradouro_numero,
                               callback: function($$v) {
-                                _vm.$set(_vm.usuario, "logradouro_numero", $$v)
+                                _vm.$set(_vm.pessoa, "logradouro_numero", $$v)
                               },
-                              expression: "usuario.logradouro_numero"
+                              expression: "pessoa.logradouro_numero"
                             }
                           })
                         ],
@@ -37049,16 +37534,16 @@ var render = function() {
                         [
                           _c("jb-text", {
                             attrs: {
-                              name: "logradouro_bairro",
+                              name: "bairro",
                               regras: "required",
                               label: "Bairro"
                             },
                             model: {
-                              value: _vm.usuario.logradouro_bairro,
+                              value: _vm.pessoa.bairro,
                               callback: function($$v) {
-                                _vm.$set(_vm.usuario, "logradouro_bairro", $$v)
+                                _vm.$set(_vm.pessoa, "bairro", $$v)
                               },
-                              expression: "usuario.logradouro_bairro"
+                              expression: "pessoa.bairro"
                             }
                           })
                         ],
@@ -37082,15 +37567,15 @@ var render = function() {
                             attrs: {
                               name: "email",
                               regras:
-                                "email|email-unique:verificar-email-perfil",
+                                "email|email-unique:url=verificar-email-perfil",
                               label: "Email"
                             },
                             model: {
-                              value: _vm.usuario.email,
+                              value: _vm.pessoa.email,
                               callback: function($$v) {
-                                _vm.$set(_vm.usuario, "email", $$v)
+                                _vm.$set(_vm.pessoa, "email", $$v)
                               },
-                              expression: "usuario.email"
+                              expression: "pessoa.email"
                             }
                           })
                         ],
@@ -37109,11 +37594,11 @@ var render = function() {
                               mascara: "telefone"
                             },
                             model: {
-                              value: _vm.usuario.telefone,
+                              value: _vm.pessoa.telefone,
                               callback: function($$v) {
-                                _vm.$set(_vm.usuario, "telefone", $$v)
+                                _vm.$set(_vm.pessoa, "telefone", $$v)
                               },
-                              expression: "usuario.telefone"
+                              expression: "pessoa.telefone"
                             }
                           })
                         ],
@@ -79274,9 +79759,10 @@ Vue.use(vuetify__WEBPACK_IMPORTED_MODULE_1___default.a, {
 /**
  ================= COMPONENTES
  */
-// require('../../metta/js/components');
 
 __webpack_require__(/*! @/registros/metta */ "./resources/js/registros/metta.js");
+
+__webpack_require__(/*! @/registros/_partes */ "./resources/js/registros/_partes.js");
 
 __webpack_require__(/*! @/registros/perfil */ "./resources/js/registros/perfil.js");
 
@@ -79431,6 +79917,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CrudPessoas_vue_vue_type_template_id_0bac4473___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CrudPessoas_vue_vue_type_template_id_0bac4473___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/_partes/FormConfirmarSenha.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/_partes/FormConfirmarSenha.vue ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FormConfirmarSenha_vue_vue_type_template_id_92168f3c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormConfirmarSenha.vue?vue&type=template&id=92168f3c& */ "./resources/js/components/_partes/FormConfirmarSenha.vue?vue&type=template&id=92168f3c&");
+/* harmony import */ var _FormConfirmarSenha_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormConfirmarSenha.vue?vue&type=script&lang=js& */ "./resources/js/components/_partes/FormConfirmarSenha.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FormConfirmarSenha_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FormConfirmarSenha_vue_vue_type_template_id_92168f3c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FormConfirmarSenha_vue_vue_type_template_id_92168f3c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/_partes/FormConfirmarSenha.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/_partes/FormConfirmarSenha.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/_partes/FormConfirmarSenha.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormConfirmarSenha_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./FormConfirmarSenha.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/_partes/FormConfirmarSenha.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormConfirmarSenha_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/_partes/FormConfirmarSenha.vue?vue&type=template&id=92168f3c&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/_partes/FormConfirmarSenha.vue?vue&type=template&id=92168f3c& ***!
+  \***********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormConfirmarSenha_vue_vue_type_template_id_92168f3c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./FormConfirmarSenha.vue?vue&type=template&id=92168f3c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/_partes/FormConfirmarSenha.vue?vue&type=template&id=92168f3c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormConfirmarSenha_vue_vue_type_template_id_92168f3c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormConfirmarSenha_vue_vue_type_template_id_92168f3c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -79887,7 +80442,7 @@ function (_VueApiQueryModel) {
     key: "baseURL",
     value: function baseURL() {
       return '';
-    } // implement a default request method 
+    } // implement a default request method
 
   }, {
     key: "request",
@@ -79930,6 +80485,7 @@ function (_VueApiQueryModel) {
     key: "limparThis",
     value: function limparThis() {
       var props = Object.getOwnPropertyNames(this);
+      delete props[props.indexOf('_fromResource')];
 
       for (var i = 0; i < props.length; i++) {
         delete this[props[i]];
@@ -80030,6 +80586,17 @@ function (_BaseModel) {
 
 /***/ }),
 
+/***/ "./resources/js/registros/_partes.js":
+/*!*******************************************!*\
+  !*** ./resources/js/registros/_partes.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+Vue.component('form-confirmarsenha', __webpack_require__(/*! ../components/_partes/FormConfirmarSenha.vue */ "./resources/js/components/_partes/FormConfirmarSenha.vue")["default"]);
+
+/***/ }),
+
 /***/ "./resources/js/registros/metta.js":
 /*!*****************************************!*\
   !*** ./resources/js/registros/metta.js ***!
@@ -80039,13 +80606,9 @@ function (_BaseModel) {
 
 __webpack_require__(/*! @metta/mt-v-plugin-global */ "./node_modules/@metta/mt-v-plugin-global/index.js");
 
-__webpack_require__(/*! @metta/mt-v-auth */ "./node_modules/@metta/mt-v-auth/index.js"); // require('@metta/mt-v-menucircular-mensagens');
-// require('@metta/mt-v-menucircular-suspenso');
+__webpack_require__(/*! @metta/mt-v-auth */ "./node_modules/@metta/mt-v-auth/index.js");
 
-
-__webpack_require__(/*! @metta/mt-v-menucircular-usuario */ "./node_modules/@metta/mt-v-menucircular-usuario/index.js"); // require('@metta/mt-v-menulateral');
-// require('@metta/mt-v-filepond');
-
+__webpack_require__(/*! @metta/mt-v-menucircular-usuario */ "./node_modules/@metta/mt-v-menucircular-usuario/index.js");
 
 __webpack_require__(/*! @metta/mt-v-dialog */ "./node_modules/@metta/mt-v-dialog/index.js");
 

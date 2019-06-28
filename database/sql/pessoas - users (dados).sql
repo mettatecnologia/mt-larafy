@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 07-Jun-2019 às 20:23
+-- Generation Time: 28-Jun-2019 às 14:42
 -- Versão do servidor: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -23,30 +23,20 @@ SET time_zone = "+00:00";
 -- Database: `larafy`
 --
 
--- --------------------------------------------------------
-
-
 --
 -- Extraindo dados da tabela `pessoas`
 --
 
-INSERT INTO `pessoas` (`id`, `nome`, `email`, `dtanascimento`, `logradouro_tipo`, `logradouro`, `logradouro_numero`, `logradouro_bairro`, `telefone`, `ativo`) VALUES
-(1, 'admin', 'admin@admin.com', NULL, NULL, NULL, NULL, NULL, NULL, 1);
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `users`
---
-
+INSERT INTO `pessoas` (`id`, `nome`, `email`, `papel`, `dtanascimento`, `logradouro_tipo`, `logradouro`, `logradouro_numero`, `bairro`, `telefone`, `ativo`) VALUES
+(1, 'joabe', 'joabemachadodeabreu@gmail.com', 'ADM', NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 --
 -- Extraindo dados da tabela `users`
 --
 
-INSERT INTO `users` (`id`, `pessoa_id`, `password`, `papel`, `email_verified_at`, `remember_token`, `ativo`) VALUES
-(1, 1, '$2y$10$Cv6rmMV8CKUXlSO5lRNewO0BownaR0y5nzAE4hefo85ZMN2IknDRy', 'ADM', NULL, 'G1dC3AO07KX4lwDhcElJr7AWoCCObsKX4UZdG2svv0Kfr25lppw2FKtZSff3', '1');
-
+INSERT INTO `users` (`id`, `pessoa_id`, `password`, `email_verified_at`, `remember_token`, `ativo`) VALUES
+(1, 1, '$2y$10$Cv6rmMV8CKUXlSO5lRNewO0BownaR0y5nzAE4hefo85ZMN2IknDRy', NULL, NULL, 1);
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

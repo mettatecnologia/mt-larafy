@@ -56,10 +56,11 @@ return [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'prefix_indexes' => true,
-            'strict' => true,
+            'strict' => env('DB_STRICT',false), //setar false para evitar erros como: SQLSTATE[42000]: Syntax error or access violation: 1055 'table.field' isn't in GROUP BY
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                PDO::ATTR_EMULATE_PREPARES => true, //pode trazer riscos à segurança verificar outra forma de resolver o erro => SQLSTATE[HY000]: General error: 1615 Prepared statement needs to be re-prepared
             ]) : [],
         ],
 

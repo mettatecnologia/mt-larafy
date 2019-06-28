@@ -1,12 +1,8 @@
 require('@metta/mt-v-plugin-global');
 
 require('@metta/mt-v-auth');
-// require('@metta/mt-v-menucircular-mensagens');
-// require('@metta/mt-v-menucircular-suspenso');
-require('@metta/mt-v-menucircular-usuario');
-// require('@metta/mt-v-menulateral');
 
-// require('@metta/mt-v-filepond');
+require('@metta/mt-v-menucircular-usuario');
 
 
 require('@metta/mt-v-dialog');

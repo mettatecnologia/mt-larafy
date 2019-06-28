@@ -8,37 +8,37 @@
 
                     <v-layout justify-space-between row wrap>
                         <v-flex xs12 md12 class="px-1">
-                            <jb-text autofocus v-model="usuario.nome" name="nome" regras="required" label="Nome" ></jb-text>
+                            <jb-text autofocus v-model="pessoa.nome" name="nome" regras="required" label="Nome" ></jb-text>
                         </v-flex>
                     </v-layout>
 
                     <v-layout justify-start>
                         <v-flex xs12 md5 class="px-1">
-                            <jb-text-datetime v-model="usuario.dtanascimento" name="dtanascimento" label="Data de nascimento" regras="required" ></jb-text-datetime>
+                            <jb-text-datetime v-model="pessoa.dtanascimento" name="dtanascimento" label="Data de nascimento" regras="required" ></jb-text-datetime>
                         </v-flex>
                     </v-layout>
 
                     <v-layout row wrap>
                         <v-flex xs12 md2 class="px-1">
-                            <jb-cmb-logradourotipo v-model="usuario.logradouro_tipo" name="logradouro_tipo" label="Tipo"></jb-cmb-logradourotipo>
+                            <jb-cmb-logradourotipo v-model="pessoa.logradouro_tipo" name="logradouro_tipo" label="Tipo"></jb-cmb-logradourotipo>
                         </v-flex>
                         <v-flex xs12 md5 class="px-1">
-                            <jb-text v-model="usuario.logradouro" name="logradouro" regras="required" label="Logradouro" ></jb-text>
+                            <jb-text v-model="pessoa.logradouro" name="logradouro" regras="required" label="Logradouro" ></jb-text>
                         </v-flex>
                         <v-flex xs12 md2 class="px-1">
-                            <jb-text v-model="usuario.logradouro_numero" name="logradouro_numero" regras="required" mascara='integer' label="Numero" ></jb-text>
+                            <jb-text v-model="pessoa.logradouro_numero" name="logradouro_numero" regras="required" mascara='integer' label="Numero" ></jb-text>
                         </v-flex>
                         <v-flex xs12 md3 class="px-1">
-                            <jb-text v-model="usuario.logradouro_bairro" name="logradouro_bairro" regras="required" label="Bairro" ></jb-text>
+                            <jb-text v-model="pessoa.bairro" name="bairro" regras="required" label="Bairro" ></jb-text>
                         </v-flex>
                     </v-layout>
 
                     <v-layout justify-space-between row wrap>
                         <v-flex xs12 md6 class="px-1">
-                            <jb-text v-model="usuario.email" name="email" regras="email|email-unique:verificar-email-perfil" label="Email"  ></jb-text>
+                            <jb-text v-model="pessoa.email" name="email" regras="email|email-unique:url=verificar-email-perfil" label="Email"  ></jb-text>
                         </v-flex>
                         <v-flex xs12 md6 class="px-1">
-                            <jb-text v-model="usuario.telefone" name="telefone" regras="required" label="Telefone" mascara="telefone" ></jb-text>
+                            <jb-text v-model="pessoa.telefone" name="telefone" regras="required" label="Telefone" mascara="telefone" ></jb-text>
                         </v-flex>
                     </v-layout>
 
@@ -57,7 +57,7 @@ export default {
         perfil:String,
     },
     data() {return {
-            usuario:{id:null,nome:null,email:null,ativo:true,dtanascimento:null,logradouro_tipo:'Rua',logradouro:null,logradouro_numero:null,logradouro_bairro:null,telefone:null,},
+            pessoa:{id:null,nome:null,email:null,ativo:true,dtanascimento:null,logradouro_tipo:'Rua',logradouro:null,logradouro_numero:null,bairro:null,telefone:null,},
             ModelPerfil: new Perfil({}),
             form: {
                 valid: false,
@@ -73,14 +73,14 @@ export default {
             },
     }},
     created(){
-        Object.assign(this.usuario, JSON.parse(this.perfil))
+        Object.assign(this.pessoa, JSON.parse(this.perfil))
     },
     methods: {
         alterarPerfil(e, validate){
             this.loading.mostrar = true
 
             this.ModelPerfil
-                .preparaItem(this.usuario)
+                .preparaItem(this.pessoa)
                 .createAndSave()
                 .then(v => {
 

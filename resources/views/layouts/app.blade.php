@@ -39,7 +39,9 @@
                     <jb-menucircular-usuario titulo="{{ explode(' ', Auth::user()->name)[0] }}" csrf="{{csrf_token()}}" logout-href="{{ route('logout') }}" >
 
                         <jb-menucircular-usuario-item titulo="Perfil" href="/perfil" icone="fa-id-card"></jb-menucircular-usuario-item>
-                        <jb-menucircular-usuario-item titulo="Configurações" href="/configs" icone="fa-cogs"></jb-menucircular-usuario-item>
+                        <template v-if="{{json_encode($User->papel=='ADM')}}">
+                            <jb-menucircular-usuario-item titulo="Configurações" href="/configs" icone="fa-cogs"></jb-menucircular-usuario-item>
+                        </template>
 
                     </jb-menucircular-usuario>
 

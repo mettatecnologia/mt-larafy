@@ -48,7 +48,7 @@ class ResetPasswordController extends Controller
             );
 
             if($response == Password::PASSWORD_RESET){
-                $retorno = self::criarArrayPadraoMensagens('Senha resetada, com sucesso, vamos entrar!');
+                $retorno = self::criarArrayPadraoMensagens('Senha resetada com sucesso');
                 $retorno['dados'] = [
                     'redirecionar_url'=> route('home')
                 ];

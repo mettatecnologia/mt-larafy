@@ -23,45 +23,55 @@ class CrudController extends Controller
 
     public function store(Request $request)
     {
-        $retorno = self::$retorno_padrao;
         $dados = $request->except(['__response']);
+        return $this->storeDados($dados);
+    }
+
+    public function storeDados(...$dados){
         try {
-            if(key_exists('ativo', $dados)){
-                $dados['ativo'] = strval((int) $dados['ativo']);
+            if(sizeof($dados) < 2){
+                $dados = $dados[0];
+                $result = $this->Model::create($dados);
             }
-            $result = $this->Model::create($dados);
+            else {
+                /** crie o metodo criar() na class Model */
+                $result = call_user_func_array([$this->Model, 'criar'], $dados);
+            }
             $retorno = self::criarArrayPadraoMensagens();
             $retorno['dados'] = $this->Model::where('id',$result->id)->first()->toArray();
         } catch (AllException $exc) {
             $retorno =self::getDefaultCatchReturn($exc);
             $retorno['dados'] = $dados;
         }
-
         return response()->json(['__response'=>$retorno]);
-
     }
 
     public function update(Request $request, $id)
     {
-        $retorno = self::$retorno_padrao;
         $dados = $request->except(['__response']);
+        return $this->updateDados($dados);
+    }
 
+    public function updateDados(...$dados){
         try {
-            if(key_exists('ativo', $dados)){
-                $dados['ativo'] = strval((int) $dados['ativo']);
+            if(sizeof($dados) < 2){
+                $dados = $dados[0];
+                $result = $this->Model::find($dados['id'])->fill($dados)->update();
             }
-            $result = $this->Model::find($dados['id'])->fill($dados)->update();
+            else {
+                /**
+                 * crie o metodo atualizar() na class Model
+                 */
+                $result = call_user_func_array([$this->Model, 'atualizar'], $dados);
+            }
+            $dados_id = $dados['id']??$dados[0]['id'];
             $retorno = self::criarArrayPadraoMensagens();
-            $retorno['dados'] = $this->Model::where('id',$dados['id'])->first();
-
+            $retorno['dados'] = $this->Model::where('id',$dados_id)->first()->toArray();
         } catch (AllException $exc) {
             $retorno =self::getDefaultCatchReturn($exc);
             $retorno['dados'] = $dados;
         }
-
         return response()->json(['__response'=>$retorno]);
-
-
     }
 
     public function destroy($id)

@@ -48,10 +48,10 @@ class RegisterController extends Controller
                 self::lancarException(array_shift($erros)[0]);
             }
 
-            event(new Registered($user = $this->create($request->all())));
+            event(new Registered($user = User::registrarPessoaComUsuario($request->all())));
             $this->guard()->login($user);
 
-            $retorno = self::criarArrayPadraoMensagens('Tudo certo, vamos entrar!');
+            $retorno = self::criarArrayPadraoMensagens('Tudo certo');
             $retorno['dados'] = [
                 'user'=>$user,
                 'redirecionar_url'=> $this->redirectPath()
@@ -63,16 +63,6 @@ class RegisterController extends Controller
 
         return response()->json(['__response'=>$retorno]);
 
-    }
-
-    protected function validator(array $data)
-    {
-        return UserService::validator($data);
-    }
-
-    protected function create(array $data)
-    {
-        return User::salvarPessoaComUsuario($data);
     }
 
 }

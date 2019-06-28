@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConfigsTable extends Migration
+class CreateLogsTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'configs';
+    public $tableName = 'logs';
 
     /**
      * Run the migrations.
-     * @table configs
+     * @table logs
      *
      * @return void
      */
@@ -23,13 +23,19 @@ class CreateConfigsTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('nome', 45);
-            $table->string('nome_interno', 45);
-            $table->string('descricao', 45)->nullable()->default(null);
-            $table->string('valor', 45)->nullable()->default(null);
-            $table->tinyInteger('ativo');
+            $table->unsignedInteger('user_id');
+            $table->dateTime('datahora');
+            $table->enum('nivel', ['EMERG', 'ALERT', 'CRIT', 'ERR', 'WARN', 'NOTIC', 'INFO', 'DEBUG']);
+            $table->string('mensagem');
+            $table->string('extra')->nullable();
 
-            $table->unique(["id"], 'id_UNIQUE');
+            $table->index(["user_id"], 'fk_logs_users1_idx');
+
+
+            $table->foreign('user_id', 'fk_logs_users1_idx')
+                ->references('id')->on('users')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
         });
     }
 

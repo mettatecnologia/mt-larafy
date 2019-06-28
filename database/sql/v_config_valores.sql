@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 07-Jun-2019 às 20:15
+-- Generation Time: 28-Jun-2019 às 14:48
 -- Versão do servidor: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -25,13 +25,13 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure for view `v_users`
+-- Structure for view `v_config_valores`
 --
 
-CREATE VIEW `v_users`  AS  select `a`.`id` AS `id`,`a`.`pessoa_id` AS `pessoa_id`,`a`.`password` AS `password`,`a`.`email_verified_at` AS `email_verified_at`,`a`.`remember_token` AS `remember_token`,`a`.`ativo` AS `ativo`,`b`.`nome` AS `nome`,`b`.`email` AS `email`,`b`.`papel` AS `papel` from (`users` `a` join `pessoas` `b` on((`b`.`id` = `a`.`pessoa_id`))) ;
+CREATE VIEW `v_config_valores`  AS  select `a`.`id` AS `id`,`a`.`nome` AS `nome`,`a`.`nome_interno` AS `nome_interno`,`a`.`descricao` AS `descricao`,`a`.`ativo` AS `ativo`,`b`.`valor` AS `valor` from (`configs` `a` join `config_valores` `b` on((`b`.`config_id` = `a`.`id`))) ;
 
 --
--- VIEW  `v_users`
+-- VIEW  `v_config_valores`
 -- Data: Nenhum
 --
 

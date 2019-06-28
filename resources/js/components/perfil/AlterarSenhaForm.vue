@@ -76,6 +76,7 @@ export default {
                     if(response.erro){
                         this.form.mensagens = this.$criarObjetoMensagensForm(response.mensagens[0], response.mensagens_tipo);
                         this.loading.mostrar = false
+                        this.$dialog.message.error(response.mensagens.join('-'), {timeout: 5000});
                     }
                     else {
                         this.form.senha_atual = null

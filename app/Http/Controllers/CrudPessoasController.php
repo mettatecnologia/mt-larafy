@@ -27,7 +27,7 @@ class CrudPessoasController extends CrudController
 
         }
         $retorno['pessoas'] = $pessoas;
-        $retorno['papeis'] = self::userPapeis();
+        $retorno['papeis'] = self::pessoaPapeis();
 
         return parent::index($retorno);
     }
