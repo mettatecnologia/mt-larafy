@@ -1,20 +1,16 @@
 {
     "dependencies": {
-        "@metta/mt-v-alert": "^1.0.0",
-        "@metta/mt-v-auth": "^1.0.0",
-        "@metta/mt-v-barrasuperior": "^1.0.0",
-        "@metta/mt-v-datatable-crud": "^1.0.0",
-        "@metta/mt-v-dialog": "^1.0.0",
-        "@metta/mt-v-filepond": "^1.0.0",
-        "@metta/mt-v-form": "^1.0.0",
-        "@metta/mt-v-icon": "^1.0.0",
-        "@metta/mt-v-iconevoltar": "^1.0.0",
-        "@metta/mt-v-loading": "^1.0.0",
-        "@metta/mt-v-menubloco": "^1.0.0",
-        "@metta/mt-v-menucircular-mensagens": "^1.0.0",
-        "@metta/mt-v-menucircular-suspenso": "^1.0.0",
-        "@metta/mt-v-menucircular-usuario": "^1.0.0",
-        "@metta/mt-v-menulateral": "^1.0.0",
-        "@metta/mt-v-plugin-global": "^1.0.0"
+        "@metta/mt-v-alert": "^1.0.1",
+        "@metta/mt-v-auth": "^1.0.3",
+        "@metta/mt-v-barrasuperior": "^1.0.1",
+        "@metta/mt-v-datatable-crud": "^1.0.4",
+        "@metta/mt-v-dialog": "^1.0.1",
+        "@metta/mt-v-filepond": "^1.0.2",
+        "@metta/mt-v-form": "^1.0.4",
+        "@metta/mt-v-icon": "^1.0.2",
+        "@metta/mt-v-loading": "^1.0.1",
+        "@metta/mt-v-menubloco": "^1.0.3",
+        "@metta/mt-v-menucircular-usuario": "^1.0.1",
+        "@metta/mt-v-plugin-global": "^1.0.1"
     }
 }
