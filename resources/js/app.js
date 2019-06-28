@@ -31,7 +31,8 @@ Vue.use(Vuetify, {
 /**
  ================= COMPONENTES
  */
-require('@/registros/metta');
+require('./../../metta/js/components'); //ativar quando for desenvolver os componentes da metta
+// require('@/registros/metta');
 require('@/registros/_partes');
 require('@/registros/perfil');
 require('@/registros/outros');

@@ -32,7 +32,7 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $retorno = self::$retorno_padrao;
-        $retorno['senha_min'] = UserService::SENHA_MIN;
+        $retorno['senha_min'] = env('APP_PASSWORD_MIN',6);
         return view('auth.register', $retorno);
     }
 
