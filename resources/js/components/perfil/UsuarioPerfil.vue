@@ -1,7 +1,7 @@
 <template>
 <div>
 
-    <v-tabs v-model="tabs.index" color="primary" dark grow >
+    <v-tabs v-model="tabs.index" background-color="primary" grow >
         <v-tab> <v-icon class="mr-1">fa-id-card</v-icon> Dados </v-tab>
         <v-tab> <v-icon class="mr-1">fa-lock</v-icon> Senha </v-tab>
 
@@ -9,24 +9,23 @@
     </v-tabs>
 
     <v-tabs-items v-model="tabs.index" style="border:1px solid #EEE">
+
         <v-tab-item>
-            <v-layout justify-center>
-                <v-flex xs12 md12>
-                    <alterardados-form
-                        :perfil="perfil"
-                    > </alterardados-form>
-                </v-flex>
-            </v-layout>
+            <v-row justify="center">
+                <v-col cols="12" md="11">
+                    <alterardados-form :perfil="perfil"> </alterardados-form>
+                </v-col>
+            </v-row>
         </v-tab-item>
 
 
         <v-tab-item class="pa-3">
 
-            <v-layout justify-center>
-                <v-flex xs12 md8>
+            <v-row justify="center">
+                <v-col cols="12" md="8">
                     <alterarsenha-form senha-tam-min = 4 > </alterarsenha-form>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
 
         </v-tab-item>
     </v-tabs-items>

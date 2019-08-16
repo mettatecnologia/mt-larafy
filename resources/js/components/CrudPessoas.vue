@@ -7,8 +7,8 @@
 
         :items="datatable.itens"
         :headers="datatable.headers"
+
         :pagination="datatable.pagination"
-        disable-initial-sort
 
         dialog-persistent
 
@@ -19,51 +19,51 @@
         <template slot="form">
             <jb-loading v-model="loading.mostrar"></jb-loading>
 
-            <v-layout justify-space-between row wrap>
-                <v-flex xs12 md12 class="px-1">
+            <v-row justify="space-between">
+                <v-col cols="12" class="px-1">
                     <jb-text autofocus v-model="pessoa.nome" name="nome" regras="required" label="Nome" ></jb-text>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
 
-            <v-layout justify-start>
-                <v-flex xs12 md4 class="px-1">
+            <v-row justify="start">
+                <v-col cols="12" md="4" class="px-1">
                     <jb-text-datetime v-model="pessoa.dtanascimento" name="dtanascimento" tipo="date" label="Data de nascimento" regras="required" ></jb-text-datetime>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
 
-            <v-layout row wrap>
-                <v-flex xs12 md2 class="px-1">
+            <v-row>
+                <v-col cols="12" md="2" class="px-1">
                     <jb-cmb-logradourotipo v-model="pessoa.logradouro_tipo" name="logradouro_tipo" label="Tipo"></jb-cmb-logradourotipo>
-                </v-flex>
-                <v-flex xs12 md5 class="px-1">
+                </v-col>
+                <v-col cols="12" md="5" class="px-1">
                     <jb-text v-model="pessoa.logradouro" name="logradouro" regras="required" label="Logradouro" ></jb-text>
-                </v-flex>
-                <v-flex xs12 md2 class="px-1">
+                </v-col>
+                <v-col cols="12" md="2" class="px-1">
                     <jb-text v-model="pessoa.logradouro_numero" name="logradouro_numero" regras="required" mascara='integer' label="Numero" ></jb-text>
-                </v-flex>
-                <v-flex xs12 md3 class="px-1">
+                </v-col>
+                <v-col cols="12" md="3" class="px-1">
                     <jb-text v-model="pessoa.bairro" name="bairro" regras="required" label="Bairro" ></jb-text>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
 
-            <v-layout justify-space-between row wrap>
-                <v-flex xs12 md6 class="px-1">
-                    <jb-text v-model="pessoa.email" name="email" regras="email-unique" label="Email" ></jb-text>
-                </v-flex>
-                <v-flex xs12 md6 class="px-1">
+            <v-row justify="space-between">
+                <v-col cols="12" md="6" class="px-1">
+                    <jb-text-email v-model="pessoa.email" regras="required" :unique="{ignore_id: pessoa.id}" ></jb-text-email>
+                </v-col>
+                <v-col cols="12" md="6" class="px-1">
                     <jb-text v-model="pessoa.telefone" name="telefone" regras="required" label="Telefone" mascara="telefone" ></jb-text>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
 
-            <v-layout justify-end>
-                <v-flex xs12 md2>
+            <v-row justify="end">
+                <v-col cols="12" md="2">
                     <v-switch v-model="pessoa.ativo" name="ativo" :label="pessoa.ativo?'Ativo':'Inativo'"></v-switch>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
         </template>
 
-        <template v-slot:actionsExtra="{datatable_props}">
-            <jb-icon small :color="dadosActionIconeUsuario(datatable_props.item)['cor']" :tt-text="datatable_props.item.tem_usuario ? 'Alterar usuario' : 'Conceder usuario'" @click="abrirAcesso(datatable_props)" > {{dadosActionIconeUsuario(datatable_props.item)['icone']}}  </jb-icon>
+        <template v-slot:actions="{item,header}">
+            <jb-icon small :color="dadosActionIconeUsuario(item)['cor']" :tt-text="item.tem_usuario ? 'Alterar usuario' : 'Conceder usuario'" @click="abrirAcesso(item)" > {{dadosActionIconeUsuario(item)['icone']}}  </jb-icon>
         </template>
 
     </jb-datatable-crud>
@@ -99,11 +99,11 @@
                     label="Confimar Senha"
                 ></jb-text-password>
 
-                <v-layout justify-end>
-                    <v-flex xs12 md2>
+                <v-row justify="end">
+                    <v-col cols="12" md="2">
                         <v-switch v-model="usuario.form.campos.ativo" name="ativo" :label="usuario.form.campos.ativo?'Ativo':'Inativo'"></v-switch>
-                    </v-flex>
-                </v-layout>
+                    </v-col>
+                </v-row>
 
         </jb-form>
 
@@ -144,9 +144,10 @@ export default {
                 headers: [
                     { text: '#', value: 'id', align:'center' },
                     { text: 'Nome', value: 'nome', align:'center' },
+                    { text: 'Nascimento', value: 'dtanascimento', align:'center', formato:'date' },
                     { text: 'Email', value: 'email', align:'center' },
                     { text: 'Ativo', value: 'ativo', align:'center' },
-                    { text: 'Ações', value: 'acoes', align:'center', sortable:false, onlyheader:true },
+                    { text: 'Ações', value: 'actions', align:'center', sortable:false, onlyheader:true },
                 ],
             },
             usuario:{
@@ -183,7 +184,6 @@ export default {
     created () {
         this.datatable.itens = JSON.parse(this.pessoas)
         this.usuario.form.papeis = JSON.parse(this.papeis)
-
     },
     watch:{
         'form.cidade'(cidade){
@@ -212,17 +212,17 @@ export default {
                 icone:icone
             }
         },
-        abrirAcesso(itens){
-            this.usuario.form.exibir_password = !itens.item.tem_usuario
-            this.usuario.index = itens.index
+        abrirAcesso(item){
+            this.usuario.index = this.datatable.itens.indexOf(item)
+            this.usuario.form.exibir_password = !item.tem_usuario
 
-            if(itens.item.tem_usuario){
-                this.usuario.form.campos.papel = itens.item.usuario.papel
-                this.usuario.form.campos.ativo = itens.item.usuario.ativo
+            if(item.tem_usuario){
+                this.usuario.form.campos.papel = item.usuario.papel
+                this.usuario.form.campos.ativo = item.usuario.ativo
             }
 
-            this.usuario.form.campos.pessoa_id = itens.item.id
-            this.usuario.form.campos.email = itens.item.email
+            this.usuario.form.campos.pessoa_id = item.id
+            this.usuario.form.campos.email = item.email
             this.usuario.dialog.mostrar = true
         },
         fecharAcesso(){
@@ -237,7 +237,7 @@ export default {
 
             this.usuario.dialog.mostrar = false
         },
-        alterarAcesso(e){
+        alterarAcesso(){
             this.usuario.loading.mostrar = true
 
             this.ModelPessoa

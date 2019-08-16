@@ -3,13 +3,13 @@
 @section('content')
 <v-container fluid fill-height>
 
-    <v-layout align-center justify-center>
-        <v-flex xs12 sm8 md4>
+    <v-row align="center" justify="center">
+        <v-col cols="12" sm="8" md="4">
 
             <cadastrarusuario-form senha-tam-min="{{ $senha_min }}" nome="{{ old('nome') }}" email="{{ old('email') }}" > </cadastrarusuario-form>
 
-        </v-flex>
-    </v-layout>
-    
+        </v-col>
+    </v-row>
+
 </v-container>
 @endsection

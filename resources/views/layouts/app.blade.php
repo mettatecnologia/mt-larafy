@@ -18,20 +18,25 @@
 
     <!-- Styles -->
     <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
-    <link href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: sans-serif
+        };
+    </style>
 
 
 </head>
 <body>
     <div id="app" style="display: none">
-        <v-app ligth>
+        <v-app>
 
             @guest
                 <jb-barrasuperior titulo="{{ config('app.name', 'Laravel') }}" >
                     <v-spacer></v-spacer>
 
                     {{-- <v-btn flat small href="{{ route('register') }}">Registrar</v-btn> --}}
-                    <v-btn flat small href="{{ route('login') }}">Entre</v-btn>
+                    <v-btn text small href="{{ route('login') }}">Entre</v-btn>
                 </jb-barrasuperior>
             @else
                 <jb-barrasuperior titulo="{{ config('app.name', 'Laravel') }}">

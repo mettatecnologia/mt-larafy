@@ -3,13 +3,13 @@
 @section('content')
 <v-container fluid fill-height>
 
-    <v-layout align-center justify-center>
-        <v-flex xs12 sm8 md4>
+    <v-row align="center" justify="center">
+        <v-col cols="12" sm="8" md="4">
 
             <login-form esqueci-senha-href="{{ route('password.request') }}" registrar-href="{{ route('register') }}"></login-form>
 
-        </v-flex>
-    </v-layout>
+        </v-col>
+    </v-row>
 
 </v-container>
 @endsection

@@ -16,6 +16,8 @@ use App\Traits\TAuth;
 use App\Traits\TConfig;
 use App\Traits\TLog;
 use App\Traits\TException;
+use App\Traits\TFile;
+use App\Traits\TDatetime;
 
 use App\Models\Tables\User;
 use App\Models\Tables\Pessoa;
@@ -23,7 +25,7 @@ use App\Models\Views\VUfCidade;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, TGeneric, TAuth, TConfig, TLog, TException;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, TGeneric, TAuth, TConfig, TLog, TException, TFile, TDatetime;
 
     public function buscarCidadesPorEstado($uf)
     {

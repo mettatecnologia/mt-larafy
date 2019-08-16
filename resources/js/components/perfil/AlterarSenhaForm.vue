@@ -63,7 +63,7 @@ export default {
         }
     },
     methods: {
-         mudarSenha(e){
+         mudarSenha(){
             this.loading.mostrar = true
 
             this.ModelAuth

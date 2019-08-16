@@ -7,11 +7,10 @@
 
         :items="datatable.itens"
         :headers="datatable.headers"
+
         :pagination="datatable.pagination"
-        disable-initial-sort
 
         dialog-persistent
-        dialog-max-width="500px"
 
         :vueapiquery-model="ModelConfig"
         v-model="config"
@@ -21,45 +20,45 @@
 
     >
         <template slot="form">
-            <v-layout>
-                <v-flex v-if="form.mostrar_campo_nome" xs12 md12>
+            <v-row>
+                <v-col v-if="form.mostrar_campo_nome" cols="12">
                     <jb-text v-model="config.nome" name="nome" regras="required" label="Nome" :hint="'Nome interno: ' + (config.nome_interno || '')" persistent-hint ></jb-text>
-                </v-flex>
-                <v-flex v-else xs12 md12  class="mb-3 font-weight-bold">
+                </v-col>
+                <v-col v-else cols="12" class="mb-3 font-weight-bold">
                     <span>Nome: {{config.nome}}</span>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
 
-            <v-layout>
-                <v-flex xs12 md12>
+            <v-row>
+                <v-col cols="12">
                     <jb-textarea v-model="config.descricao" name="descricao" label="Descrição" rows="3" ></jb-textarea>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
 
-            <v-layout> <span class="title font-italic grey--text">Valores</span>  </v-layout>
+            <v-row> <span class="title font-italic grey--text">Valores</span>  </v-row>
 
             <template v-for="(item, key) in config.valores">
-                <v-layout :key="key">
-                    <v-flex xs12 md10>
+                <v-row :key="key" no-gutters>
+                    <v-col cols="12" md="10">
                         <jb-text v-model="config.valores[key]" name="valor" label="Valor" regras="required" />
-                    </v-flex>
-                    <v-flex xs12 md1>
-                        <v-btn small color="primary" @click="addValor(key)"><v-icon small>add</v-icon></v-btn>
-                    </v-flex>
-                    <v-flex xs12 md1>
-                        <v-btn v-if="config.valores.length>1" small color="red" dark @click="remValor(key)"><v-icon small>remove</v-icon></v-btn>
-                    </v-flex>
-                </v-layout>
+                    </v-col>
+                    <v-col cols="12" md="1">
+                        <v-btn small color="primary" min-width="30px" @click="addValor(key)"><v-icon small>add</v-icon></v-btn>
+                    </v-col>
+                    <v-col cols="12" md="1" >
+                        <v-btn v-if="config.valores.length>1" small color="red" min-width="30px" dark @click="remValor(key)"><v-icon small>remove</v-icon></v-btn>
+                    </v-col>
+                </v-row>
             </template>
 
 
-            <v-layout justify-end>
-                <v-flex xs12 md2>
+            <v-row justify="end">
+                <v-col cols="12" md="2">
                     <v-switch v-model="config.ativo" name="ativo" :label="config.ativo?'Ativo':'Inativo'"></v-switch>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
 
-            <jb-loading :esta-carregando="loading.mostrar"></jb-loading>
+            <jb-loading v-model="loading.mostrar"></jb-loading>
 
         </template>
     </jb-datatable-crud>

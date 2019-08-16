@@ -33,7 +33,6 @@ class HomeController extends Controller
 
         return [
             'Sistema'=>$blocos_config,
-            'Operações'=>$blocos_operacoes,
         ];
 
     }

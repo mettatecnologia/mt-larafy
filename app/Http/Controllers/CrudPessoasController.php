@@ -24,8 +24,8 @@ class CrudPessoasController extends CrudController
             $pessoas[$key] = $Pessoa->toArray();
             $pessoas[$key]['usuario'] = $Pessoa->user()->first();
             $pessoas[$key]['tem_usuario'] = $Pessoa->user()->count() > 0;
-
         }
+
         $retorno['pessoas'] = $pessoas;
         $retorno['papeis'] = self::pessoaPapeis();
 

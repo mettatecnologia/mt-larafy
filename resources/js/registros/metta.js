@@ -14,5 +14,5 @@ require('@metta/mt-v-menubloco');
 require('@metta/mt-v-icon');
 require('@metta/mt-v-datatable-crud');
 require('@metta/mt-v-form');
-require('@metta/mt-v-iconevoltar');
+
 

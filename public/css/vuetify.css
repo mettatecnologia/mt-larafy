@@ -14,6 +14,11 @@
 }
 
 /* ======= SNACKBARS */
+.v-snack{
+    left: 0;
+    right: 0;
+}
+
 .v-snack__wrapper {
     width: 100%;
     max-width: 100%;

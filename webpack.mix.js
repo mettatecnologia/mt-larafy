@@ -13,12 +13,15 @@ const mix = require('laravel-mix');
 const path = require('path');
 mix.js('resources/js/app.js', 'public/js');
 
-mix.webpackConfig({    
-        resolve: {      
+mix.setResourceRoot('/public/')
+
+mix.webpackConfig({
+        resolve: {
                 alias: {
                         '@': path.resolve(__dirname, 'resources/js'),
-                        '@jb': path.resolve(__dirname, 'resources/js/jbmchd'),
-                },    
-        },  
+                        '~': path.resolve(__dirname, './'),
+
+                },
+        },
 })
 

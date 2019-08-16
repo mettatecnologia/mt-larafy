@@ -3,13 +3,13 @@
 @section('content')
 <v-container fluid fill-height>
 
-    <v-layout align-center justify-center>
-        <v-flex xs12 sm8 md6>
+    <v-row align="center" justify="center">
+        <v-col cols="12" sm="8" md="6">
 
             <resetarsenha-email-form></resetarsenha-email-form>
 
-        </v-flex>
-    </v-layout>
-    
+        </v-col>
+    </v-row>
+
 </v-container>
 @endsection

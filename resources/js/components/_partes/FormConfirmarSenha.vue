@@ -9,16 +9,16 @@
         <v-card-text>
 
             <jb-form v-model="form.valid" ref="form" validar :resetValidation="form.reset_validation" cancelar-submit>
-                <v-layout row >
-                    <v-flex xs12 md12 class="px-1 mr-3">
+                <v-row>
+                    <v-col cols="12" class="px-1 mr-3">
                         <jb-text type="password" autofocus v-model="vmodel.senha" label="Senha" ></jb-text>
-                    </v-flex>
-                </v-layout>
+                    </v-col>
+                </v-row>
 
                 <v-card-actions slot="botoes">
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" flat @click="fechar()">Cancelar</v-btn>
-                    <v-btn color="primary" flat @click="confirmarSenha()" :disabled="!vmodel.senha">Confirmar</v-btn>
+                    <v-btn color="primary" text @click="fechar()">Cancelar</v-btn>
+                    <v-btn color="primary" text @click="confirmarSenha()" :disabled="!vmodel.senha">Confirmar</v-btn>
                 </v-card-actions>
 
             </jb-form>
@@ -115,7 +115,7 @@ export default {
                     }
                 }
             })
-            .finally(v => (this.loading.mostrar = false))
+            .finally(() => (this.loading.mostrar = false))
         },
 
     },
