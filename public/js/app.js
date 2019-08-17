@@ -36765,7 +36765,7 @@ var render = function() {
     _vm._l(_vm.array_itens, function(blocos, tipo) {
       return _c(
         "v-col",
-        { key: tipo },
+        { key: tipo, attrs: { cols: "12" } },
         [
           tipo
             ? _c(

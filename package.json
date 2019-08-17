@@ -50,7 +50,7 @@
     "@metta/mt-v-form": "^2.0.1",
     "@metta/mt-v-icon": "^2.0.1",
     "@metta/mt-v-loading": "^2.0.0",
-    "@metta/mt-v-menubloco": "^2.0.0",
+    "@metta/mt-v-menubloco": "^2.0.1",
     "@metta/mt-v-menucircular-usuario": "^2.0.0",
     "@metta/mt-v-plugin-global": "^2.0.0"
   }

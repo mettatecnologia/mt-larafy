@@ -9,7 +9,7 @@ class Pessoa extends AllModel
 {
 
     protected $fillable = [
-        'id','nome','email','ativo','dtanascimento','logradouro_tipo','logradouro','logradouro_numero','bairro','telefone'
+        'id','nome','email','ativo','dtanascimento','logradouro_tipo','logradouro','logradouro_numero','bairro','telefone','papel'
     ];
 
     protected $casts = [

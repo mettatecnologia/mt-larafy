@@ -9,6 +9,7 @@ use App\Exceptions\AllException;
 class CrudController extends Controller
 {
     protected $Model;
+    protected $ModelView;
     protected $view;
 
     public function __construct(){
@@ -29,6 +30,10 @@ class CrudController extends Controller
 
     public function storeDados(...$dados){
         try {
+            if( ! $this->ModelView){
+                $this->ModelView = $this->Model;
+            }
+
             if(sizeof($dados) < 2){
                 $dados = $dados[0];
                 $result = $this->Model::create($dados);
@@ -54,6 +59,10 @@ class CrudController extends Controller
 
     public function updateDados(...$dados){
         try {
+            if( ! $this->ModelView){
+                $this->ModelView = $this->Model;
+            }
+
             if(sizeof($dados) < 2){
                 $dados = $dados[0];
                 $result = $this->Model::find($dados['id'])->fill($dados)->update();
