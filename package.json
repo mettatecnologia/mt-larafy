@@ -29,29 +29,13 @@
     "eslint-plugin-vuetify": "^1.0.0-beta.3"
   },
   "dependencies": {
-    "vuetify": "^2.0.7",
+    "vuetify": "^2.*",
     "vuex": "^3.1.0",
     "vue-api-query": "^1.2.0",
-    "moment": "^2.24.0",
-    "vue-filepond": "^5.0.0",
-    "filepond": "^4.1.0",
-    "filepond-plugin-file-validate-type": "^1.2.2",
-    "filepond-plugin-image-preview": "^4.0.3",
     "vue-numeral-filter": "^1.1.1",
     "vue-string-filter": "^1.3.0",
     "sortablejs": "^1.8.3",
     "vuedraggable": "^2.19.1",
-    "@metta/mt-v-alert": "^2.0.0",
-    "@metta/mt-v-auth": "^2.0.1",
-    "@metta/mt-v-barrasuperior": "^2.0.0",
-    "@metta/mt-v-datatable-crud": "^2.0.0",
-    "@metta/mt-v-dialog": "^2.0.0",
-    "@metta/mt-v-filepond": "^1.0.6",
-    "@metta/mt-v-form": "^2.0.1",
-    "@metta/mt-v-icon": "^2.0.1",
-    "@metta/mt-v-loading": "^2.0.0",
-    "@metta/mt-v-menubloco": "^2.0.1",
-    "@metta/mt-v-menucircular-usuario": "^2.0.0",
-    "@metta/mt-v-plugin-global": "^2.0.0"
+    "@metta/mt-vue-framework": "^1.0.4"
   }
 }

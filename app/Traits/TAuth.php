@@ -29,16 +29,4 @@ trait TAuth {
         return (new PessoaService)->getPapeis();
     }
 
-    protected static function assParcId(){
-        if(self::pessoaPapel() == 'PARC')
-        {
-            return \App\Models\Tables\Parceiro::where('pessoa_id', self::pessoaId())->first()->id;
-        }
-        else if(self::pessoaPapel() == 'ASS')
-        {
-            return \App\Models\Tables\Associado::where('pessoa_id', self::pessoaId())->first()->id;
-
-        }
-        return null;
-    }
 }

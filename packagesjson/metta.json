@@ -1,16 +1,6 @@
 {
     "dependencies": {
-        "@metta/mt-v-alert": "^2.0.0",
-        "@metta/mt-v-auth": "^2.0.1",
-        "@metta/mt-v-barrasuperior": "^2.0.0",
-        "@metta/mt-v-datatable-crud": "^2.0.0",
-        "@metta/mt-v-dialog": "^2.0.0",
-        "@metta/mt-v-filepond": "^1.0.6",
-        "@metta/mt-v-form": "^2.0.1",
-        "@metta/mt-v-icon": "^2.0.1",
-        "@metta/mt-v-loading": "^2.0.0",
-        "@metta/mt-v-menubloco": "^2.0.1",
-        "@metta/mt-v-menucircular-usuario": "^2.0.0",
-        "@metta/mt-v-plugin-global": "^2.0.0"
+        "@metta/mt-vue-framework": "^1.0.4"
+
     }
 }

@@ -53,7 +53,24 @@ trait TFile {
             (is_dir("$dir/$file")) ? self::apagarDiretorioComArquivos("$dir/$file") : unlink("$dir/$file");
         }
         return rmdir($dir);
-      }
+    }
+
+    public static function extrairNomeArquivo($nome, $com_extensao=false){
+        $nome = self::normalizarCaminho($nome);
+        $nome = explode(DIRECTORY_SEPARATOR,$nome);
+        $nome = array_pop($nome);
+        if($com_extensao)
+        {
+            return $nome;
+        }
+        else
+        {
+            $nome = explode('.',$nome);
+            return array_shift($nome);
+        }
+    }
+
+
 
 
 

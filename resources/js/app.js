@@ -22,6 +22,9 @@ const vuetify_opts = {
         locales: { 'pt': pt },
         current: 'pt'
     },
+    icons: {
+        iconfont: 'mdiSvg',
+    },
     theme: {
         light: true,
         themes:{
@@ -50,7 +53,7 @@ window.Vue.$_vuetifydialog_installed = true
 /**
  ================= COMPONENTES
  */
-require('./../../metta/js/components'); //ativar quando for desenvolver os componentes da metta
+require('./../../metta/js/components/mt-vue-framework'); //ativar quando for desenvolver os componentes da metta
 // require('@/registros/metta');
 require('@/registros/_partes');
 require('@/registros/perfil');

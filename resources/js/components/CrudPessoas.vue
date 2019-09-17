@@ -15,19 +15,21 @@
         :vueapiquery-model="ModelPessoa"
         v-model="pessoa"
 
+        ref="jb-datatable-crud"
+
     >
-        <template slot="form">
+        <template v-slot:form>
             <jb-loading v-model="loading.mostrar"></jb-loading>
 
             <v-row justify="space-between">
                 <v-col cols="12" class="px-1">
-                    <jb-text autofocus v-model="pessoa.nome" name="nome" regras="required" label="Nome" ></jb-text>
+                    <jb-text autofocus v-model="pessoa.nome" regras="required" label="Nome" name="nome" ></jb-text>
                 </v-col>
             </v-row>
 
             <v-row justify="start">
                 <v-col cols="12" md="4" class="px-1">
-                    <jb-text-datetime v-model="pessoa.dtanascimento" name="dtanascimento" tipo="date" label="Data de nascimento" regras="required" ></jb-text-datetime>
+                    <jb-text-datetime v-model="pessoa.dtanascimento" name="dtanascimento" label="Data de nascimento" regras="required" historica></jb-text-datetime>
                 </v-col>
             </v-row>
 
@@ -62,13 +64,13 @@
             </v-row>
         </template>
 
-        <template v-slot:actions="{item,header}">
+        <template v-slot:item.prepend-actions="{ item, header, value }" >
             <jb-icon small :color="dadosActionIconeUsuario(item)['cor']" :tt-text="item.tem_usuario ? 'Alterar usuario' : 'Conceder usuario'" @click="abrirAcesso(item)" > {{dadosActionIconeUsuario(item)['icone']}}  </jb-icon>
         </template>
 
     </jb-datatable-crud>
 
-    <jb-dialog v-model="usuario.dialog.mostrar" persistent @fechar="fecharAcesso" titulo="Gerenciar Acesso">
+    <jb-dialog v-model="usuario.dialog.mostrar" persistent @fechar="fecharAcesso" titulo="Gerenciar Acesso" max-width="500px">
         <jb-loading v-model="usuario.loading.mostrar"></jb-loading>
 
         <jb-form v-model="usuario.form.valid" ref="form" validar :mensagens="usuario.form.mensagens.mensagens" :mensagens-tipo="usuario.form.mensagens.tipo" :mensagens-detalhes="usuario.form.mensagens.detalhes" @submit="alterarAcesso" :resetValidation="usuario.form.reset_validation">
@@ -100,7 +102,7 @@
                 ></jb-text-password>
 
                 <v-row justify="end">
-                    <v-col cols="12" md="2">
+                    <v-col cols="12" md="3">
                         <v-switch v-model="usuario.form.campos.ativo" name="ativo" :label="usuario.form.campos.ativo?'Ativo':'Inativo'"></v-switch>
                     </v-col>
                 </v-row>
@@ -125,7 +127,7 @@ export default {
     },
     data() {
         return {
-            pessoa:{id:null,nome:null,email:null,ativo:true,dtanascimento:null,logradouro_tipo:'Rua',logradouro:null,logradouro_numero:null,bairro:null,telefone:null,},
+            pessoa:{id:null,nome:null,email:null,ativo:true,dtanascimento:null,logradouro_tipo:'Rua',logradouro:null,logradouro_numero:null,bairro:null,telefone:null,papel:null, tem_usuario:null, usuario:[]},
             ModelPessoa: new Pessoa({}),
             loading:{
                 mostrar:false
@@ -142,12 +144,12 @@ export default {
                 pagination: { sortBy: 'nome_razao', },
                 itens:[],
                 headers: [
-                    { text: '#', value: 'id', align:'center' },
-                    { text: 'Nome', value: 'nome', align:'center' },
-                    { text: 'Nascimento', value: 'dtanascimento', align:'center', formato:'date' },
-                    { text: 'Email', value: 'email', align:'center' },
-                    { text: 'Ativo', value: 'ativo', align:'center' },
-                    { text: 'Ações', value: 'actions', align:'center', sortable:false, onlyheader:true },
+                    { text: '#', value: 'id', align:'center', class:'text-center' },
+                    { text: 'Nome', value: 'nome', align:'center', class:'text-center' },
+                    { text: 'Nascimento', value: 'dtanascimento', align:'center', class:'text-center', formato:'date' },
+                    { text: 'Email', value: 'email', align:'center', class:'text-center' },
+                    { text: 'Ativo', value: 'ativo', align:'center', class:'text-center' },
+                    { text: 'Ações', value: 'actions', align:'center', class:'text-center', sortable:false, onlyheader:true },
                 ],
             },
             usuario:{
