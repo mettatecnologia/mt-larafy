@@ -1,6 +1,6 @@
 {
     "dependencies": {
-        "@metta/mt-vue-framework": "^1.0.4"
+        "@metta/mt-vue-framework": "^1.0.5"
 
     }
 }

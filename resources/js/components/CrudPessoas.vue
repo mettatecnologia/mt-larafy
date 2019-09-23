@@ -29,7 +29,7 @@
 
             <v-row justify="start">
                 <v-col cols="12" md="4" class="px-1">
-                    <jb-text-datetime v-model="pessoa.dtanascimento" name="dtanascimento" label="Data de nascimento" regras="required" historica></jb-text-datetime>
+                    <jb-text-datetime v-model="pessoa.dtanascimento" name="dtanascimento" label="Data de nascimento" regras="required" historic></jb-text-datetime>
                 </v-col>
             </v-row>
 
