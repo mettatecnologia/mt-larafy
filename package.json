@@ -36,6 +36,6 @@
     "vue-string-filter": "^1.3.0",
     "sortablejs": "^1.8.3",
     "vuedraggable": "^2.19.1",
-    "@metta/mt-vue-framework": "^1.0.6"
+    "@metta/mt-vue-framework": "^1.0.7"
   }
 }
