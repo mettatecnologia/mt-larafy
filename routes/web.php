@@ -12,13 +12,14 @@
 */
 
 Route::get('/', function () { return view('welcome'); });
+Route::get('/navegador-invalido', function () { return view('erros/navegador-invalido'); });
 
-Route::namespace ('Base')->group(function () {
+Route::middleware(['bloqueia_navegadores_microsoft'])->namespace('Base')->group(function () {
     Route::get('verificar-email/{email}/{ignore_user_id?}', 'Controller@verificarEmail');
     Route::get('buscarCidadesPorEstado/{uf}', 'Controller@buscarCidadesPorEstado');
 });
 
-Route::middleware(['guest'])->group(function () {
+Route::middleware(['bloqueia_navegadores_microsoft','guest'])->group(function () {
     Route::namespace ('Auth')->group(function () {
         Route::get('login', 'LoginController@showLoginForm')->name('login');
         Route::post('login', 'LoginController@login');
@@ -35,7 +36,7 @@ Route::middleware(['guest'])->group(function () {
     });
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['bloqueia_navegadores_microsoft','auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -48,6 +49,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('configs', 'CrudConfiguracoesController');
     Route::resource('pessoas', 'CrudPessoasController');
     Route::post('pessoas/alterar-acesso', 'CrudPessoasController@alterarAcesso');
+
+    Route::middleware(['papel.admin'])->group(function () {
+        //
+    });
 
 });
 

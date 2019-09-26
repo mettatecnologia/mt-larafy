@@ -60,6 +60,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'bloqueia_navegadores_microsoft' => \App\Http\Middleware\BloqueiaNavegadoresMicrosoft::class,
+        'papel.admin' => \App\Http\Middleware\PapelAdmin::class,
     ];
 
     /**

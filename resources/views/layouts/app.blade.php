@@ -12,6 +12,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="{{asset('public/img/idvisual/favicon.png')}}"/>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
@@ -30,17 +33,20 @@
 <body>
     <div id="app" style="display: none">
         <v-app>
+            <jb-barrasuperior titulo="{{ config('app.name', 'Laravel') }}" color="deep-orange darken-4">
+                <template v-slot:titulo>
+                    <span class="hidden-sm-and-down pt-3">
+                        <v-btn text href="/home">
+                            <img style="width: 85%" src="{{asset('public/img/idvisual/logo_ico_lg.png')}}" />
+                        </v-btn>
+                    </span>
+                </template>
+                <v-spacer></v-spacer>
 
-            @guest
-                <jb-barrasuperior titulo="{{ config('app.name', 'Laravel') }}" >
-                    <v-spacer></v-spacer>
-
+                @guest
                     {{-- <v-btn flat small href="{{ route('register') }}">Registrar</v-btn> --}}
                     <v-btn text small href="{{ route('login') }}">Entre</v-btn>
-                </jb-barrasuperior>
-            @else
-                <jb-barrasuperior titulo="{{ config('app.name', 'Laravel') }}">
-                    <v-spacer></v-spacer>
+                @else
                     <jb-menucircular-usuario titulo="{{ explode(' ', Auth::user()->name)[0] }}" csrf="{{csrf_token()}}" logout-href="{{ route('logout') }}" >
 
                         <jb-menucircular-usuario-item titulo="Perfil" href="/perfil" icone="fa-id-card"></jb-menucircular-usuario-item>
@@ -49,10 +55,9 @@
                         </template>
 
                     </jb-menucircular-usuario>
+                @endguest
 
-                </jb-barrasuperior>
-
-            @endguest
+            </jb-barrasuperior>
 
             <v-content>
                 @yield('content')

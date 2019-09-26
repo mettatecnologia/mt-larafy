@@ -29,9 +29,11 @@ const vuetify_opts = {
         light: true,
         themes:{
             light:{
-                primary: colors.blue.darken2,
+                primary: colors.orange.accent4,
+
                 secondary: colors.grey.darken3,
                 accent: colors.blue.darken2,
+
                 error: colors.red.accent2,
                 warning: colors.amber.base,
                 info: colors.blue.base,
@@ -53,18 +55,17 @@ window.Vue.$_vuetifydialog_installed = true
 /**
  ================= COMPONENTES
  */
-require('./../../metta/js/components/mt-vue-framework'); //ativar quando for desenvolver os componentes da metta
-// require('@/registros/metta');
-require('@/registros/_partes');
-require('@/registros/perfil');
-require('@/registros/outros');
+require('./../../larafy/js/components/mt-vue-framework'); //ativar quando for desenvolver os componentes da metta
+// require('@metta/mt-vue-framework'); //ativar quando for testar a biblioteca depois de publicada
+
+require('./registro_componentes');
 
 /**
  * Uncomment below when compiling to production
  */
-Vue.config.devtools = false
-Vue.config.debug = false
-Vue.config.silent = true
+// Vue.config.devtools = false
+// Vue.config.debug = false
+// Vue.config.silent = true
 
 const app = new Vue({
     el: '#app',

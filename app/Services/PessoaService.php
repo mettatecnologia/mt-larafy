@@ -5,12 +5,9 @@ namespace App\Services;
 use App\Services\AllService;
 
 use App\Models\AllModel;
+use App\Models\Tables\Pessoa;
 
 class PessoaService extends AllService  {
-
-    const PAPEL_SUPER = 'SUP';
-    const PAPEL_ADMINISTRADOR = 'ADM';
-    const PAPEL_USUARIO = 'USR';
 
     private static $papeis=[];
 
@@ -27,8 +24,8 @@ class PessoaService extends AllService  {
 
     public static function getPapeis(){
         $papeis = self::$papeis;
-        if(self::pessoaPapel()!=self::PAPEL_SUPER){
-            $papeis = array_diff($papeis, [self::PAPEL_SUPER]);
+        if(self::pessoaPapel()!=Pessoa::PAPEL_SUPER){
+            $papeis = array_diff($papeis, [Pessoa::PAPEL_SUPER]);
         }
         $papeis = array_values($papeis);
         return $papeis;

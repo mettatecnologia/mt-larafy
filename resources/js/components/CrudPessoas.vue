@@ -122,8 +122,8 @@ import Pessoa from '@/models/Pessoa'
 export default {
 
     props:{
-        pessoas:Array,
-        papeis:Array,
+        pessoas:{type:[String,Array]},
+        papeis:{type:[String,Array]},
     },
     data() {
         return {
