@@ -43,7 +43,7 @@ class CrudController extends Controller
                 $result = call_user_func_array([$this->Model, 'criar'], $dados);
             }
             $retorno = self::criarArrayPadraoMensagens();
-            $retorno['dados'] = $this->Model::where('id',$result->id)->first()->toArray();
+            $retorno['dados'] = $this->ModelView::where('id',$result->id)->first()->toArray();
         } catch (AllException $exc) {
             $retorno =self::getDefaultCatchReturn($exc);
             $retorno['dados'] = $dados;
@@ -75,7 +75,7 @@ class CrudController extends Controller
             }
             $dados_id = $dados['id']??$dados[0]['id'];
             $retorno = self::criarArrayPadraoMensagens();
-            $retorno['dados'] = $this->Model::where('id',$dados_id)->first()->toArray();
+            $retorno['dados'] = $this->ModelView::where('id',$dados_id)->first()->toArray();
         } catch (AllException $exc) {
             $retorno =self::getDefaultCatchReturn($exc);
             $retorno['dados'] = $dados;

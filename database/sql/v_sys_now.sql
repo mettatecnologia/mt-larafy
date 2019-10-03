@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 -- Structure for view `v_sys_now`
 --
 
-CREATE VIEW `v_sys_now`  AS  select (utc_timestamp() + interval -(3) hour) AS `datetime` ;
+CREATE VIEW `v_sys_now`  AS  select `a`.`datetime` AS `datetime`,cast(`a`.`datetime` as date) AS `date`,cast(`a`.`datetime` as time) AS `time` from (select utc_timestamp() + interval -3 hour AS `datetime`) `a` ;
 
 --
 -- VIEW  `v_sys_now`
