@@ -2,18 +2,20 @@
 
 namespace App\Services;
 
-use \App\Traits\TGeneric;
-use \App\Traits\TFile;
-use \App\Traits\TConfig;
-use \App\Traits\TString;
-use App\Traits\TLog;
+use App\Traits\TArray;
 use App\Traits\TAuth;
+use App\Traits\TConfig;
 use App\Traits\TDatetime;
 use App\Traits\TException;
+use App\Traits\TFile;
+use App\Traits\TGeneric;
+use App\Traits\TLog;
+use App\Traits\TPessoa;
+use App\Traits\TString;
 
 class AllService {
 
-    use TGeneric, TFile, TConfig, TString, TLog, TAuth, TDatetime, TException;
+    use TArray, TAuth, TConfig, TDatetime, TException, TFile, TGeneric, TLog, TPessoa, TString;
 
     public function __construct() {
         ;

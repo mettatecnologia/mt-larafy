@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-use App\Traits\TGeneric;
+use App\Traits\TArray;
 use App\Traits\TConfig;
 use App\Traits\TException;
+use App\Traits\TGeneric;
 use App\Traits\TLog;
 
 
@@ -23,7 +24,7 @@ and a.table_name='tabela'
 
 class AllModel extends Model {
 
-    use TGeneric, TConfig, TException, TLog;
+    use TArray, TConfig, TException, TGeneric, TLog;
 
     const CREATED_AT = 'dtainclusao';
     const UPDATED_AT = 'dtaalteracao';

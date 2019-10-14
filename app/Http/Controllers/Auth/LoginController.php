@@ -10,6 +10,8 @@ use App\Exceptions\AllException;
 
 use App\Models\Views\VUser;
 
+use App\Services\Session\SessionService as Session;
+
 class LoginController extends Controller
 {
     /*
@@ -47,6 +49,8 @@ class LoginController extends Controller
             if (!$token = auth()->attempt($credentials)) {
                 self::lancarException('Credenciais inválidas', 401);
             }
+
+            Session::iniciarSessaoAposAutenticacao($User);
 
             $User = $request->user();
             $retorno = self::criarArrayPadraoMensagens('Tudo certo');

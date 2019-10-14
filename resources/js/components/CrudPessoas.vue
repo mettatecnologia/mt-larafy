@@ -65,15 +65,15 @@
         </template>
 
         <template v-slot:item.prepend-actions="{ item, header, value }" >
-            <jb-icon small :color="dadosActionIconeUsuario(item)['cor']" :tt-text="item.tem_usuario ? 'Alterar usuario' : 'Conceder usuario'" @click="abrirAcesso(item)" > {{dadosActionIconeUsuario(item)['icone']}}  </jb-icon>
+            <jb-icon small :color="dadosActionIconeUsuario(item)['cor']" :tt-text="item.usuario.id ? 'Alterar usuario' : 'Conceder usuario'" @click="abrirAcesso(item)" > {{dadosActionIconeUsuario(item)['icone']}}  </jb-icon>
         </template>
 
     </jb-datatable-crud>
 
-    <jb-dialog v-model="usuario.dialog.mostrar" persistent @fechar="fecharAcesso" titulo="Gerenciar Acesso" max-width="500px">
+    <jb-dialog v-model="usuario.dialog.mostrar" persistent titulo="Gerenciar Acesso" max-width="500px">
         <jb-loading v-model="usuario.loading.mostrar"></jb-loading>
 
-        <jb-form v-model="usuario.form.valid" ref="form" validar :mensagens="usuario.form.mensagens.mensagens" :mensagens-tipo="usuario.form.mensagens.tipo" :mensagens-detalhes="usuario.form.mensagens.detalhes" @submit="alterarAcesso" :resetValidation="usuario.form.reset_validation">
+        <jb-form v-model="usuario.form.valid" ref="form" validar :pode-limpar="false" :mensagens="usuario.form.mensagens.mensagens" :mensagens-tipo="usuario.form.mensagens.tipo" :mensagens-detalhes="usuario.form.mensagens.detalhes" @submit="alterarAcesso" :resetValidation="usuario.form.reset_validation">
 
                 <jb-select v-model="usuario.form.campos.papel" :items="usuario.form.papeis" regras="required" label="Papel" ></jb-select>
 
@@ -82,22 +82,22 @@
                     name="email"
                     regras="required|email"
                     label="Email"
-                    :disabled="usuario.form.campos.email"
+                    :disabled="!!usuario.form.campos.email"
                 ></jb-text>
 
                 <jb-text-password
                     v-if="usuario.form.exibir_password"
                     v-model="usuario.form.campos.password"
-                    name="password"
-                    :regras="'required|min:4|match:password_confirmation'"
+                    name="senha"
+                    :regras="['required',{min:4}]"
                     label="Senha"
                 ></jb-text-password>
 
                 <jb-text-password
                     v-if="usuario.form.exibir_password"
                     v-model="usuario.form.campos.password_confirmation"
-                    name="password_confirmation"
-                    regras="required|match:password"
+                    name="senha_confirmacao"
+                    :regras="['required',{match:'senha'}]"
                     label="Confimar Senha"
                 ></jb-text-password>
 
@@ -127,7 +127,7 @@ export default {
     },
     data() {
         return {
-            pessoa:{id:null,nome:null,email:null,ativo:true,dtanascimento:null,logradouro_tipo:'Rua',logradouro:null,logradouro_numero:null,bairro:null,telefone:null,papel:null, tem_usuario:null, usuario:[]},
+            pessoa:{id:null,nome:null,email:null,ativo:true,dtanascimento:null,logradouro_tipo:'Rua',logradouro:null,logradouro_numero:null,bairro:null,telefone:null,papel:'USR', usuario:[]},
             ModelPessoa: new Pessoa({}),
             loading:{
                 mostrar:false
@@ -167,14 +167,7 @@ export default {
                         tipo:null,
                         detalhes:null,
                     },
-                    campos:{
-                        pessoa_id:null,
-                        papel:'USR',
-                        email:null,
-                        password:null,
-                        password_confirmation:null,
-                        ativo:1,
-                    },
+                    campos:{pessoa_id:null, papel:'USR', email:null, password:null, password_confirmation:null, ativo:1},
 
                 },
                 loading:{
@@ -196,7 +189,7 @@ export default {
         dadosActionIconeUsuario(item){
             let cor = 'grey'
             let icone = 'fa-user-shield'
-            if(item.tem_usuario){
+            if(item.usuario.id){
                 if(item.usuario.ativo){
                     cor = 'green'
                 }
@@ -215,17 +208,19 @@ export default {
             }
         },
         abrirAcesso(item){
-            this.usuario.index = this.datatable.itens.indexOf(item)
-            this.usuario.form.exibir_password = !item.tem_usuario
+            this.usuario.index = this.$buscarItemDatatable(this.datatable.itens, item.id, 'id').index
+            this.usuario.form.exibir_password = !item.usuario.id
 
-            if(item.tem_usuario){
-                this.usuario.form.campos.papel = item.usuario.papel
+            if(item.usuario.id){
+                this.usuario.form.campos.papel = item.papel
                 this.usuario.form.campos.ativo = item.usuario.ativo
             }
 
             this.usuario.form.campos.pessoa_id = item.id
             this.usuario.form.campos.email = item.email
             this.usuario.dialog.mostrar = true
+
+
         },
         fecharAcesso(){
             this.usuario.index = null
@@ -254,9 +249,8 @@ export default {
                         this.loading.mostrar = false
                     }
                     else {
-
                         this.$dialog.message.success(response.mensagens.join('-'), {timeout: 5000});
-                        this.datatable.itens[this.usuario.index].tem_usuario = true
+                        this.datatable.itens[this.usuario.index].usuario.id = response.dados ? response.dados.id : null
                         this.datatable.itens[this.usuario.index].usuario = response.dados
                         this.fecharAcesso()
                     }

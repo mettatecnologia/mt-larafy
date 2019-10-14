@@ -11,13 +11,16 @@ use Illuminate\Http\Request;
 
 use App\Exceptions\AllException;
 
-use App\Traits\TGeneric;
+use App\Traits\TArray;
 use App\Traits\TAuth;
 use App\Traits\TConfig;
-use App\Traits\TLog;
+use App\Traits\TDatetime;
 use App\Traits\TException;
 use App\Traits\TFile;
-use App\Traits\TDatetime;
+use App\Traits\TGeneric;
+use App\Traits\TLog;
+use App\Traits\TPessoa;
+use App\Traits\TSession;
 
 use App\Models\Tables\User;
 use App\Models\Tables\Pessoa;
@@ -25,7 +28,8 @@ use App\Models\Views\VUfCidade;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, TGeneric, TAuth, TConfig, TLog, TException, TFile, TDatetime;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests,
+        TArray, TAuth, TConfig, TDatetime, TException, TFile, TGeneric, TLog, TPessoa, TSession;
 
     public function buscarCidadesPorEstado($uf)
     {

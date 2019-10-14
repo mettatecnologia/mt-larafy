@@ -43,14 +43,20 @@ Route::middleware(['bloqueia_navegadores_microsoft','auth'])->group(function () 
     Route::get('verificar-email-perfil/{email}', 'PerfilController@verificarEmailPerfil');
     Route::post('/mudar-senha', 'PerfilController@mudarSenha')->name('mudar-senha');
 
-    Route::post('validar-senha', 'Base\Controller@validarSenha');
+    Route::group(['namespace'=>'Base'], function () {
+        Route::post('validar-senha', 'Controller@validarSenha');
+
+        Route::group(['prefix'=>'session'], function () {
+            Route::post('get-session', 'SessionController@getSession');
+        });
+    });
 
     Route::resource('perfil', 'PerfilController');
     Route::resource('configs', 'CrudConfiguracoesController');
     Route::resource('pessoas', 'CrudPessoasController');
     Route::post('pessoas/alterar-acesso', 'CrudPessoasController@alterarAcesso');
 
-    Route::middleware(['papel.admin'])->group(function () {
+    Route::middleware(['pessoa.papel_admin'])->group(function () {
         //
     });
 

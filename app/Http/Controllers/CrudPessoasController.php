@@ -22,8 +22,7 @@ class CrudPessoasController extends CrudController
         $pessoas = [];
         foreach ($Pessoas as $key => $Pessoa) {
             $pessoas[$key] = $Pessoa->toArray();
-            $pessoas[$key]['usuario'] = $Pessoa->user()->first();
-            $pessoas[$key]['tem_usuario'] = $Pessoa->user()->count() > 0;
+            $pessoas[$key]['usuario'] = $Pessoa->user()->first() ?? [];
         }
 
         $retorno['pessoas'] = $pessoas;

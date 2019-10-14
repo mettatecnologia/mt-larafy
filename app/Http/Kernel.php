@@ -61,7 +61,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'bloqueia_navegadores_microsoft' => \App\Http\Middleware\BloqueiaNavegadoresMicrosoft::class,
-        'papel.admin' => \App\Http\Middleware\PapelAdmin::class,
+        'pessoa.papel_admin' => \App\Http\Middleware\Pessoa\PapelAdmin::class,
     ];
 
     /**
