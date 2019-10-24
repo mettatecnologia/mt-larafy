@@ -12,7 +12,7 @@ class HomeController extends Controller
     public function index()
     {
         try {
-            $retorno = self::$retorno_padrao;
+            $retorno = self::retornoPadrao();
             $retorno['blocos_menu'] = $this->blocosMenu();
             return view('home', $retorno);
         } catch (AllException $exc) {

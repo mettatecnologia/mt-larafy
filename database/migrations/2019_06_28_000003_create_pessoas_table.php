@@ -25,7 +25,7 @@ class CreatePessoasTable extends Migration
             $table->increments('id');
             $table->string('nome', 191);
             $table->string('email', 191);
-            $table->enum('papel', ['SUP', 'ADM', 'USR'])->default('USR');
+            $table->enum('papel', ['SYS', 'SUP', 'ADM', 'USR'])->default('USR');
             $table->date('dtanascimento')->nullable();
             $table->string('logradouro_tipo', 45)->nullable();
             $table->string('logradouro', 100)->nullable();

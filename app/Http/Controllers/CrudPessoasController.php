@@ -32,7 +32,7 @@ class CrudPessoasController extends CrudController
     }
 
     public function alterarAcesso(Request $request){
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
         $dados = $request->except(['__response']);
         try {
             $User = User::salvarUsuario($dados);

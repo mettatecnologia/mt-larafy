@@ -23,7 +23,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $params_integer = ['id'];
+
+        foreach ($params_integer as $key => $param) {
+            Route::pattern($param, '[0-9]+');
+        }
 
         parent::boot();
     }

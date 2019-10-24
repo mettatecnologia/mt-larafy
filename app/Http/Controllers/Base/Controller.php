@@ -20,7 +20,7 @@ use App\Traits\TFile;
 use App\Traits\TGeneric;
 use App\Traits\TLog;
 use App\Traits\TPessoa;
-use App\Traits\TSession;
+use App\Traits\TSessao;
 
 use App\Models\Tables\User;
 use App\Models\Tables\Pessoa;
@@ -29,11 +29,11 @@ use App\Models\Views\VUfCidade;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests,
-        TArray, TAuth, TConfig, TDatetime, TException, TFile, TGeneric, TLog, TPessoa, TSession;
+        TArray, TAuth, TConfig, TDatetime, TException, TFile, TGeneric, TLog, TPessoa, TSessao;
 
     public function buscarCidadesPorEstado($uf)
     {
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
 
         try {
             $retorno['dados'] = VUfCidade::where('uf',$uf)->get();
@@ -47,7 +47,7 @@ class Controller extends BaseController
 
     public function verificarEmail($email, $ignore_pessoa_id=0)
     {
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
         try {
             $busca = Pessoa::where('email',$email)->where('id','<>',$ignore_pessoa_id)->first();
             $dados = [
@@ -64,7 +64,7 @@ class Controller extends BaseController
 
     public function validarSenha(Request $request)
     {
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
         $dados = $request->except(['__response']);
         $pessoa_id = $dados['pessoa_id'] ?? self::pessoaId();
         $senha = $dados['senha'];
@@ -82,6 +82,16 @@ class Controller extends BaseController
         }
 
         return response()->json(['__response'=>$retorno]);
+    }
+
+    public static function getSession()
+    {
+        $keys = request('key');
+        $default = request('default');
+
+        $result = session()->get($keys, $default);
+
+        return response()->json(['__response'=>$result]);
     }
 
 

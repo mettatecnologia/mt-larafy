@@ -33,6 +33,9 @@ class AppServiceProvider extends ServiceProvider
                 $User = self::user();
                 $View->with('User', $User);
             }
+            else {
+                session()->put('user',\App\Models\Tables\Pessoa::getSysApp());
+            }
         });
         Schema::defaultStringLength(env('DB_MAX_STRING_LENGTH',191));
     }

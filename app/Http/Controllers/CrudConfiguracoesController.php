@@ -39,7 +39,7 @@ class CrudConfiguracoesController extends CrudController
 
     public function store(Request $request)
     {
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
         $config = $request->except(['__response']);
         $valores = $config['valores'];
         unset($config['valores']);
@@ -49,7 +49,7 @@ class CrudConfiguracoesController extends CrudController
 
     public function update(Request $request, $id)
     {
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
         $config = $request->except(['__response']);
         $valores = $config['valores'];
         unset($config['valores']);
