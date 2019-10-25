@@ -15,6 +15,9 @@ import Vuetify from 'vuetify'
 import pt from 'vuetify/lib/locale/pt'
 import colors from 'vuetify/es5/util/colors'
 
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import '@mdi/font/css/materialdesignicons.css'
+
 Vue.use(Vuetify)
 
 const vuetify_opts = {
@@ -23,7 +26,7 @@ const vuetify_opts = {
         current: 'pt'
     },
     icons: {
-        iconfont: 'mdiSvg',
+        iconfont: 'mdi',
     },
     theme: {
         light: true,
@@ -50,6 +53,10 @@ import VuetifyDialog from "vuetify-dialog";
 import "vuetify-dialog/dist/vuetify-dialog.min.css";
 Vue.use(VuetifyDialog, { context: {  vuetify } });
 window.Vue.$_vuetifydialog_installed = true
+
+//============== VueStringFilter
+import VueStringFilter from 'vue-string-filter'
+Vue.use(VueStringFilter)
 
 
 /**

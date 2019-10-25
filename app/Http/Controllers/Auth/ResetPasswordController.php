@@ -37,7 +37,7 @@ class ResetPasswordController extends Controller
 
     public function reset(Request $request)
     {
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
 
         try {
             $request->validate($this->rules(), $this->validationErrorMessages());

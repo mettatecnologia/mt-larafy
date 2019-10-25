@@ -2,9 +2,23 @@
 
 namespace App\Traits;
 
+use Illuminate\Http\Request;
+
 trait TArray {
 
-    protected static $retorno_padrao = ['erro'=>false,'mensagens'=>[], 'mensagens_tipo'=>'info', 'exception'=>[], 'dados'=>[]];
+    private static $retorno_padrao = ['erro'=>false,'mensagens'=>[], 'mensagens_tipo'=>'info', 'exception'=>[], 'sessao'=>[], 'request'=>['params'=>[]], 'dados'=>[]];
+
+    protected static function retornoPadrao(Request $Request=null){
+
+        $retorno_padrao = self::$retorno_padrao;
+        $retorno_padrao['sessao']['pessoa_papel'] = session()->get('pessoa.papel');
+        if($Request){
+            $Route = $Request->route();
+            $retorno_padrao['request']['params'] = $Route->parameters();
+        }
+
+        return $retorno_padrao;
+    }
 
     protected static function criarArrayPadraoMensagens($mensagens='Operação realizada com sucesso.', $mensagens_tipo='success', $tem_erro=false){
         $retorno = self::$retorno_padrao;

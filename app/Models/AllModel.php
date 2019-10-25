@@ -31,15 +31,19 @@ class AllModel extends Model {
 
     public $timestamps = false;
 
+    protected $hidden = ['pivot'];
+
     protected $casts = [
-        'ativo' => 'boolean'
+        'ativo' => 'integer'
     ];
 
-    public static function getTableName()
-    {
-        return (new self())->getTable();
+    public static function scopeAtivos($query){
+        return $query->where('ativo', 1);
     }
 
+    public static function getTableName(){
+        return (new self())->getTable();
+    }
 
     public static function getTabelaInfo($tabela_nome=null){
         return self::queryTabelaInfo($tabela_nome)->first();

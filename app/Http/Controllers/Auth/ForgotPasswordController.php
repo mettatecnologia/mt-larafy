@@ -26,7 +26,7 @@ class ForgotPasswordController extends Controller
 
     public function sendResetLinkEmail(Request $request)
     {
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
 
         try {
             $this->validateEmail($request);

@@ -4,9 +4,11 @@ namespace App\Traits;
 
 use App\Exceptions\AllException;
 
+use App\Traits\TArray;
+
 trait TException {
 
-    protected static $retorno_padrao = ['erro'=>false,'mensagens'=>[], 'mensagens_tipo'=>'info', 'exception'=>[], 'dados'=>[]];
+    use TArray;
 
     protected static function lancarException($mensagem, $codigo=500) {
         throw new AllException($mensagem, $codigo);

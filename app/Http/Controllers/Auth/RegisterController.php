@@ -31,14 +31,14 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
         $retorno['senha_min'] = env('APP_PASSWORD_MIN',6);
         return view('auth.register', $retorno);
     }
 
     public function register(Request $request)
     {
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
         $dados = $request->all();
 
         try {

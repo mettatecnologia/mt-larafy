@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 --
 
 INSERT INTO `pessoas` (`id`, `nome`, `email`, `papel`, `dtanascimento`, `logradouro_tipo`, `logradouro`, `logradouro_numero`, `bairro`, `telefone`, `ativo`) VALUES
-(1, 'database', 'database@ficticio.com', 'SUP', NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(2, 'app', 'app@ficticio.com', 'SUP', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(1, 'database', 'database@ficticio.com', 'SYS', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2, 'app', 'app@ficticio.com', 'SYS', NULL, NULL, NULL, NULL, NULL, NULL, 1),
 (3, 'joabe', 'joabemachadodeabreu@gmail.com', 'ADM', NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 --
@@ -37,8 +37,8 @@ INSERT INTO `pessoas` (`id`, `nome`, `email`, `papel`, `dtanascimento`, `logrado
 --
 
 INSERT INTO `users` (`id`, `pessoa_id`, `password`, `email_verified_at`, `remember_token`, `ativo`) VALUES
-(1, 1, '$2y$10$Cv6rmMV8CKUXlSO5lRNewO0BownaR0y5nzAE4hefo85ZMN2IknDRy', NULL, NULL, 1),
-(2, 2, '$2y$10$Cv6rmMV8CKUXlSO5lRNewO0BownaR0y5nzAE4hefo85ZMN2IknDRy', NULL, NULL, 1),
+(1, 1, ' ', NULL, NULL, 1),
+(2, 2, ' ', NULL, NULL, 1),
 (3, 3, '$2y$10$Cv6rmMV8CKUXlSO5lRNewO0BownaR0y5nzAE4hefo85ZMN2IknDRy', NULL, NULL, 1);
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;

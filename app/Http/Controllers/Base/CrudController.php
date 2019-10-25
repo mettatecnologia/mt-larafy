@@ -18,7 +18,8 @@ class CrudController extends Controller
 
     public function index(...$para_view)
     {
-        $retorno = array_shift($para_view);
+        $retorno = self::retornoPadrao();
+        $retorno = array_merge($retorno,array_shift($para_view));
         return view($this->view, $retorno);
     }
 
@@ -85,7 +86,7 @@ class CrudController extends Controller
 
     public function destroy($id)
     {
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
 
         try {
             $this->Model::destroy($id);

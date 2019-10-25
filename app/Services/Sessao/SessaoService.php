@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\Session;
+namespace App\Services\Sessao;
 
 use App\Services\AllService;
 
 use App\Models\Tables\Pessoa;
 use App\Models\Tables\User;
 
-class SessionService extends AllService  {
+class SessaoService extends AllService  {
 
     public static function iniciarSessaoAposAutenticacao(User $User){
         $Pessoa = Pessoa::find($User->pessoa_id);

@@ -11,6 +11,7 @@
         :pagination="datatable.pagination"
 
         dialog-persistent
+        dialog-mostrar
 
         :vueapiquery-model="ModelConfig"
         v-model="config"
@@ -19,7 +20,13 @@
         :pre-editar="preEditar"
 
     >
-        <template slot="form">
+        <template v-slot:form>
+            <!-- <v-row justify="end">
+                <v-col cols="12" md="2">
+                    <v-checkbox v-model="config.multiplo" name="multiplo" label="Múltiplo"></v-checkbox>
+                </v-col>
+            </v-row> -->
+
             <v-row>
                 <v-col v-if="form.mostrar_campo_nome" cols="12">
                     <jb-text v-model="config.nome" name="nome" regras="required" label="Nome" :hint="'Nome interno: ' + (config.nome_interno || '')" persistent-hint ></jb-text>
@@ -37,17 +44,25 @@
 
             <v-row> <span class="title font-italic grey--text">Valores</span>  </v-row>
 
+            <v-row justify="end">
+                <v-col cols="12" md="2" class="pt-0">
+                    <v-checkbox v-model="config.multiplo" name="multiplo" label="Múltiplos" hide-details></v-checkbox>
+                </v-col>
+            </v-row>
+
             <template v-for="(item, key) in config.valores">
                 <v-row :key="key" no-gutters>
                     <v-col cols="12" md="10">
                         <jb-text v-model="config.valores[key]" name="valor" label="Valor" regras="required" />
                     </v-col>
-                    <v-col cols="12" md="1">
-                        <v-btn small color="primary" min-width="30px" @click="addValor(key)"><v-icon small>add</v-icon></v-btn>
-                    </v-col>
-                    <v-col cols="12" md="1" >
-                        <v-btn v-if="config.valores.length>1" small color="red" min-width="30px" dark @click="remValor(key)"><v-icon small>remove</v-icon></v-btn>
-                    </v-col>
+                    <template v-if="config.multiplo">
+                        <v-col cols="12" md="1">
+                            <v-btn small color="primary" min-width="30px" @click="addValor(key)"><v-icon small>add</v-icon></v-btn>
+                        </v-col>
+                        <v-col cols="12" md="1" >
+                            <v-btn v-if="config.valores.length>1" small color="red" min-width="30px" dark @click="remValor(key)"><v-icon small>remove</v-icon></v-btn>
+                        </v-col>
+                    </template>
                 </v-row>
             </template>
 
@@ -78,7 +93,7 @@ export default {
         mensagens:String, mensagensTipo:String,
     },
     data() { return {
-        config:{id:null,nome:null,nome_interno:null,descricao:null, ativo:true, valores:[null]},
+        config:{id:null,nome:null,nome_interno:null,descricao:null,multiplo:false,ativo:true, valores:[null]},
         ModelConfig: new Config({}),
         loading:{
             mostrar:false
@@ -97,12 +112,12 @@ export default {
                     let result = v.filter(function (el) { return el != null;});
                     return result.length > 0 ? v.join(', ') : null
                 }},
-                { text: 'Ações', value: 'acoes', align:'center', sortable:false, onlyheader:true },
+                { text: 'Ações', value: 'actions', align:'center', sortable:false, onlyheader:true },
             ],
         },
     }},
     created () {
-        this.datatable.itens = JSON.parse(this.configs)
+        this.datatable.itens = this.configs
     },
     watch:{
         'config.nome'(v){
@@ -111,6 +126,14 @@ export default {
                 v = this.$removerAcentos(v)
             }
             this.config.nome_interno = v
+        },
+        'config.multiplo'(v){
+            if( ! v){
+                let primeiro = this.config.valores[0];
+                this.config.valores = []
+                this.config.valores.push(primeiro)
+            }
+
         }
     },
     methods:{

@@ -12,7 +12,7 @@ class Config extends AllModel
     public $timestamps = false;
 
     protected $fillable = [
-        'id','nome','nome_interno','descricao','ativo'
+        'id','nome','nome_interno','descricao','multiplo','ativo'
     ];
 
     public function valores(){ return $this->hasMany(ConfigValor::class); }

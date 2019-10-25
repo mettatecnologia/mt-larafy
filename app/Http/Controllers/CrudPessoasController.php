@@ -10,6 +10,7 @@ use App\Exceptions\AllException;
 
 use App\Models\Tables\Pessoa;
 use App\Models\Tables\User;
+use App\Services\PessoaService;
 
 class CrudPessoasController extends CrudController
 {
@@ -18,12 +19,7 @@ class CrudPessoasController extends CrudController
 
     public function index(...$para_view)
     {
-        $Pessoas = Pessoa::where('id','<>',self::pessoaId())->get();
-        $pessoas = [];
-        foreach ($Pessoas as $key => $Pessoa) {
-            $pessoas[$key] = $Pessoa->toArray();
-            $pessoas[$key]['usuario'] = $Pessoa->user()->first() ?? [];
-        }
+        $pessoas = PessoaService::buscarParaDatatableCrud();
 
         $retorno['pessoas'] = $pessoas;
         $retorno['papeis'] = self::pessoaPapeis();
@@ -31,8 +27,20 @@ class CrudPessoasController extends CrudController
         return parent::index($retorno);
     }
 
+    public function store(Request $request)
+    {
+        $dados = $request->except(['__response']);
+        $Result = $this->storeDados($dados);
+
+        $dados = $Result->getData();
+        $dados->__response->dados = PessoaService::buscarParaDatatableCrud($dados->__response->dados->id)[0];
+        $Result->setData($dados);
+
+        return $Result;
+    }
+
     public function alterarAcesso(Request $request){
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
         $dados = $request->except(['__response']);
         try {
             $User = User::salvarUsuario($dados);

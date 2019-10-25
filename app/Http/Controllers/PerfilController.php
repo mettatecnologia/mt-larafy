@@ -25,7 +25,7 @@ class PerfilController extends CrudController
     }
 
     public function mudarSenha(Request $request){
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
 
         try {
             UserService::validaMudancaSenha($request);
@@ -42,7 +42,7 @@ class PerfilController extends CrudController
 
     public function verificarEmailPerfil($email)
     {
-        $retorno = self::$retorno_padrao;
+        $retorno = self::retornoPadrao();
         try {
             $busca = Pessoa::where('email',$email)->where('id','<>',self::userId())->first();
             $dados = [

@@ -10,17 +10,18 @@ use App\Models\Tables\Log as TableLog;
 trait TLog {
 
     /**
-    * ======== Tipos de log e suas utilizacoes ===========
+        ======== Tipos de log e suas utilizacoes ===========
 
-    * emergency, // EXCLUSIVO para atuacoes do laravel, onde o sistema não conseguiu tratar
-    * error, // EXCLUSIVO para atuacoes do laravel, para erros em geral como exceções não tratadas
-    *
-    * alert, //para erros em geral que possível realizar algum tratamento
-    * info, //informacoes de uso em geral do sistema (menor nivel de registro geral do sistema)
-    *
-    * debug, // EXCLUSIVO para uso do programador
+        emergency, // EXCLUSIVO para atuacoes dos usuarios SYS e DATABASE, onde o sistema não conseguiu tratar
+        error, // EXCLUSIVO para atuacoes dos usuarios SYS e DATABASE, para erros em geral como exceções não tratadas
 
-    *critical, warning, notice //não usados por enquanto
+        alert, //para erros em geral que é necessário realizar algum tratamento
+        warning, //para avisos em geral que é possível realizar algum tratamento
+        info, //informacoes de uso em geral do sistema (menor nivel de registro geral do sistema)
+
+        debug, // EXCLUSIVO para uso do programador
+
+        critical, notice //não usados por enquanto
     */
 
     public static function alertLog(string $mensagem, array $infoextra=[], $gravar_bd=true)
@@ -52,7 +53,7 @@ trait TLog {
 
     public static function logBD(string $mensagem, array $infoextra=[], $nivel='INFO'){
         $dados = [
-            'user_id'=>Auth::user()->id ?? null,
+            'user_id'=>session()->get('user.id'),
             'datahora'=>(new \Datetime())->format('Y-m-d H:i:s'),
             'nivel'=>$nivel,
             'mensagem'=>$mensagem,

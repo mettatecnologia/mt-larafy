@@ -2,6 +2,6 @@
 
 namespace App\Traits;
 
-trait TGeneric {
+trait TSessao {
 
 }
