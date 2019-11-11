@@ -34,40 +34,51 @@ class AllModel extends Model {
     protected $hidden = ['pivot'];
 
     protected $casts = [
-        'ativo' => 'integer'
+        'id' => 'integer',
+        'ativo' => 'integer',
     ];
 
-    public static function scopeAtivos($query){
-        return $query->where('ativo', 1);
+    public static function scopeAtivos($query,$coluna_nome='ativo'){ return $query->where($coluna_nome, 1); }
+
+    /**
+     * OS METODOS SEGUINTES PRECISAM SER SOBRESCRITOS NO RESPECTIVO MODEL EM QUE SERAO NECESSARIOS
+     */
+
+    public static function extrairValoresEnum($coluna_nome){
+        $tipo = self::getColunaTipo($coluna_nome);
+
+        if($tipo != 'enum'){
+            self::lancarException("A coluna '$coluna_nome' não e do tipo ENUM");
+        }
+
+        $enum_valores = self::getColunaInfo($coluna_nome)['COLUMN_TYPE'];
+
+        preg_match_all('/\'([^"]+)\'/', $enum_valores, $matches);
+        return explode(',',str_replace('\'','',$matches[0][0]));
+
     }
 
-    public static function getTableName(){
-        return (new self())->getTable();
+    public static function getColunaTipo($coluna_nome=null, $tabela_nome=null){
+        return self::getColunaInfo($coluna_nome, $tabela_nome)['DATA_TYPE'];
+    }
+
+    public static function getColunaInfo($coluna_nome=null, $tabela_nome=null){
+        return (array) self::queryColunaInfo($coluna_nome, $tabela_nome)->first();
+    }
+
+    public static function queryColunaInfo($coluna_nome=null, $tabela_nome=null){
+        return self::queryTabelaInfo($tabela_nome)->where('column_name',$coluna_nome);
     }
 
     public static function getTabelaInfo($tabela_nome=null){
-        return self::queryTabelaInfo($tabela_nome)->first();
+        return (array) self::queryTabelaInfo($tabela_nome)->first();
     }
 
-    public static function getColunaInfo($tabela_nome=null, $coluna_nome=null){
-        return self::queryColunaInfo($tabela_nome, $coluna_nome)->first();
+    public static function queryTabelaInfo($tabela_nome=null){
+        $tabela_nome = $tabela_nome ?? $tabela_nome??self::getTableName();
+        return DB::table('information_schema.columns')->where('table_schema', env('DB_DATABASE'))->where('table_name',$tabela_nome);
     }
 
-    public static function extrairValoresEnum($enum_valores){
-        preg_match_all('/\'([^"]+)\'/', $enum_valores, $matches);
-        return explode(',',str_replace('\'','',$matches[0][0]));
-    }
-
-    public static function getColunaTipo($tabela_nome=null, $coluna_nome=null){
-        return self::queryColunaInfo($tabela_nome, $coluna_nome)->first();
-    }
-
-    private static function queryTabelaInfo($tabela_nome=null){
-        return DB::table('information_schema.columns')->where('table_schema', env('DB_DATABASE'))->where('table_name',$tabela_nome??self::getTableName());
-    }
-
-    private static function queryColunaInfo($tabela_nome=null, $coluna_nome=null){
-        return self::queryTabelaInfo($tabela_nome)->where('column_name',$coluna_nome);
-    }
+    public static function getTableName(){return (new self())->getTable(); }
 
 }

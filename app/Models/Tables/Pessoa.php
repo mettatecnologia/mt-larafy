@@ -33,4 +33,8 @@ class Pessoa extends AllModel
     public static function getSysApp(){
         return (array) DB::select('select * from pessoas a where UPPER(a.nome)="APP" and a.papel="SYS"')[0];
     }
+
+    public static function getPessoa($id){
+        return (array) DB::select("select * from pessoas a where id=$id")[0];
+    }
 }

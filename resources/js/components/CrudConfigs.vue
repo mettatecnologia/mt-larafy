@@ -11,7 +11,6 @@
         :pagination="datatable.pagination"
 
         dialog-persistent
-        dialog-mostrar
 
         :vueapiquery-model="ModelConfig"
         v-model="config"
@@ -90,7 +89,6 @@ export default {
 
     props:{
         configs:Array,
-        mensagens:String, mensagensTipo:String,
     },
     data() { return {
         config:{id:null,nome:null,nome_interno:null,descricao:null,multiplo:false,ativo:true, valores:[null]},

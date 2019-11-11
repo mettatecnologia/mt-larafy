@@ -19,46 +19,7 @@ Route::middleware(['bloqueia_navegadores_microsoft'])->namespace('Base')->group(
     Route::get('buscarCidadesPorEstado/{uf}', 'Controller@buscarCidadesPorEstado');
 });
 
-Route::middleware(['bloqueia_navegadores_microsoft','guest'])->group(function () {
-    Route::namespace ('Auth')->group(function () {
-        Route::get('login', 'LoginController@showLoginForm')->name('login');
-        Route::post('login', 'LoginController@login');
-
-        Route::get('register', 'RegisterController@showRegistrationForm')->name('register');
-        Route::post('register', 'RegisterController@register');
-
-        Route::prefix('password')->name('password.')->group(function () {
-            Route::get('reset', 'ForgotPasswordController@showLinkRequestForm')->name('request');
-            Route::post('email', 'ForgotPasswordController@sendResetLinkEmail')->name('email');
-            Route::get('reset/{token}', 'ResetPasswordController@showResetForm')->name('reset');
-            Route::post('reset', 'ResetPasswordController@reset');
-        });
-    });
-});
-
 Route::middleware(['bloqueia_navegadores_microsoft','auth'])->group(function () {
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-
-    Route::get('verificar-email-perfil/{email}', 'PerfilController@verificarEmailPerfil');
-    Route::post('/mudar-senha', 'PerfilController@mudarSenha')->name('mudar-senha');
-
-    Route::group(['namespace'=>'Base'], function () {
-        Route::post('validar-senha', 'Controller@validarSenha');
-
-        Route::group(['prefix'=>'session'], function () {
-            Route::post('get-session', 'SessionController@getSession');
-        });
-    });
-
-    Route::resource('perfil', 'PerfilController');
-    Route::resource('configs', 'CrudConfiguracoesController');
-    Route::resource('pessoas', 'CrudPessoasController');
-    Route::post('pessoas/alterar-acesso', 'CrudPessoasController@alterarAcesso');
-
-    Route::middleware(['pessoa.papel_admin'])->group(function () {
-        //
-    });
 
 });
 

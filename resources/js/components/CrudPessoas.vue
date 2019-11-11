@@ -122,8 +122,8 @@ import Pessoa from '@/models/Pessoa'
 export default {
 
     props:{
-        pessoas:{type:[String,Array]},
-        papeis:{type:[String,Array]},
+        pessoas:Array,
+        papeis:Array,
     },
     data() {
         return {
@@ -177,8 +177,8 @@ export default {
         }
     },
     created () {
-        this.datatable.itens = JSON.parse(this.pessoas)
-        this.usuario.form.papeis = JSON.parse(this.papeis)
+        this.datatable.itens = this.pessoas
+        this.usuario.form.papeis = this.papeis
     },
     watch:{
         'form.cidade'(cidade){
@@ -188,19 +188,18 @@ export default {
     methods:{
         dadosActionIconeUsuario(item){
             let cor = 'grey'
-            let icone = 'fa-user-shield'
+            let icone = 'mdi-account-check'
             if(item.usuario.id){
                 if(item.usuario.ativo){
                     cor = 'green'
                 }
                 else {
                     cor = 'red'
-                    icone = 'fa-user-times'
                 }
             }
             else {
                 cor = 'grey lighten-1'
-                icone = 'fa-user-plus'
+                icone = 'mdi-account-plus'
             }
             return {
                 cor:cor,

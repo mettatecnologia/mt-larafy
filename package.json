@@ -31,13 +31,13 @@
     "eslint-plugin-vuetify": "^1.0.0-beta.3"
   },
   "dependencies": {
-    "vuetify": "^2.1.6",
+    "vuetify": "^2.1.7",
     "vuex": "^3.1.0",
     "vue-api-query": "^1.2.0",
+    "@metta/mt-vue-framework": "^1.4.0",
     "vue-numeral-filter": "^1.1.1",
     "vue-string-filter": "^1.3.0",
     "sortablejs": "^1.10.1",
-    "vuedraggable": "^2.23.2",
-    "@metta/mt-vue-framework": "^1.3.2"
+    "vuedraggable": "^2.23.2"
   }
 }

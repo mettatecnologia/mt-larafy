@@ -17,11 +17,11 @@ class PerfilController extends CrudController
     protected $Model = Pessoa::class;
     protected $view = 'perfil';
 
-    public function index(...$para_view)
+    public function index(Request $request, ...$para_view)
     {
-        $Pessoa = Pessoa::where('id',self::pessoaId())->first();
-        $retorno['perfil'] = $Pessoa->toArray();
-        return parent::index($retorno);
+        $pessoa = Pessoa::getPessoa(self::pessoaId());
+        $retorno['perfil'] = $pessoa;
+        return parent::index($request, $retorno);
     }
 
     public function mudarSenha(Request $request){

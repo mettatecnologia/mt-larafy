@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -38,5 +39,7 @@ class AppServiceProvider extends ServiceProvider
             }
         });
         Schema::defaultStringLength(env('DB_MAX_STRING_LENGTH',191));
+
+        Blade::if('pessoaPapel', function ($papel) { return session()->get('pessoa.papel')==$papel; });
     }
 }

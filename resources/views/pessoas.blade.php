@@ -17,8 +17,8 @@
         <v-col cols="12" md="10">
             <v-btn :href="'/home'" color="white" class="mb-2"> <jb-icon dark color="primary" small class="pr-1"> fas fa-home </jb-icon> Home </v-btn>
             <crud-pessoas
-                pessoas="{{json_encode($pessoas)}}"
-                papeis="{{json_encode($papeis)}}"
+                :pessoas="{{json_encode($pessoas)}}"
+                :papeis="{{json_encode($papeis)}}"
             />
         </v-col>
     </v-row>

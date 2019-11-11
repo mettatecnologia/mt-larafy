@@ -24,7 +24,7 @@ class HomeController extends Controller
         $pessoas_qtd = Pessoa::where('id','<>',self::pessoaId())->count();
 
         $blocos_config = [
-            ['action'=>'pessoas','color'=>'orange darken-4','icone'=>'fas fa-users','qtd'=>$pessoas_qtd,'titulo'=>'Pessoas','action-text'=>null,'action-icon'=>null],
+            ['action'=>'pessoas','icone'=>'fas fa-users','qtd'=>$pessoas_qtd,'titulo'=>'Pessoas'],
         ];
 
         $blocos_operacoes = [

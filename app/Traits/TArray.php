@@ -6,15 +6,17 @@ use Illuminate\Http\Request;
 
 trait TArray {
 
-    private static $retorno_padrao = ['erro'=>false,'mensagens'=>[], 'mensagens_tipo'=>'info', 'exception'=>[], 'sessao'=>[], 'request'=>['params'=>[]], 'dados'=>[]];
+    private static $retorno_padrao = ['erro'=>false,'mensagens'=>[], 'mensagens_tipo'=>'info', 'exception'=>[],'request'=>['parameters'=>[]], 'route'=>['parameters'=>[]], 'sessao'=>[], 'dados'=>[]];
 
     protected static function retornoPadrao(Request $Request=null){
 
         $retorno_padrao = self::$retorno_padrao;
         $retorno_padrao['sessao']['pessoa_papel'] = session()->get('pessoa.papel');
+
         if($Request){
             $Route = $Request->route();
-            $retorno_padrao['request']['params'] = $Route->parameters();
+            $retorno_padrao['request']['parameters'] = $Request->parameters;
+            $retorno_padrao['route']['parameters'] = $Route->parameters;
         }
 
         return $retorno_padrao;
